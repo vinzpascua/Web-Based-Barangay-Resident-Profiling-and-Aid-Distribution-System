@@ -43,3 +43,15 @@ CREATE TABLE registered_household (
     household_members TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+
+
+
+CREATE TABLE aid_program (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    program_name VARCHAR(255),
+    aid_type VARCHAR(100),
+    date_scheduled DATE,
+    beneficiaries INT,
+    status VARCHAR(50)
+);

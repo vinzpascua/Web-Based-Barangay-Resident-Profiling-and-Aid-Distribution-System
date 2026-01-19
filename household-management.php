@@ -47,7 +47,7 @@ if (isset($_SESSION['role'])) {
 
             <div class="rp-actions">
                 <form method="GET" style="display:inline;"> 
-                    <input type="text" name="search" placeholder="Search residents..." value="<?php echo $_GET['search'] ?? ''; ?>"> 
+                    <input type="text" name="search" placeholder="Search households..." value="<?php echo $_GET['search'] ?? ''; ?>"> 
                 </form>
                 <button class="add-household">
                     <i class="fa-solid fa-plus"></i> Add Household

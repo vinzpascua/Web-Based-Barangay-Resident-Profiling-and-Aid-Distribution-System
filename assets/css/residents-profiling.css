@@ -152,13 +152,11 @@ body {
 }
 
 .edit {
-    background: transparent;
-    color: #000;
+    background: black;
 }
 
 .delete {
-    background: transparent;
-    color: #d43c3c;
+    background: #9c2828;
 }
 
 .modal-overlay {

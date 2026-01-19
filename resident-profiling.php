@@ -16,7 +16,7 @@ if (isset($_SESSION['role'])) {
 <head>
     <meta charset="UTF-8">
     <title>Resident Profiling</title>
-    <link rel="stylesheet" href="assets/css/resident-profiling.css">
+    <link rel="stylesheet" href="assets/css/residents-profiling.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 </head>
 <body>

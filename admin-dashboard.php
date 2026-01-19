@@ -12,6 +12,15 @@ $result = mysqli_query($conn, "SELECT COUNT(*) AS total FROM registered_resi");
 $row = mysqli_fetch_assoc($result);
 $total_residents = $row['total'];
 
+
+$result = mysqli_query($conn, "SELECT COUNT(*) AS total FROM registered_household");
+$row = mysqli_fetch_assoc($result);
+$total_households = $row['total'];
+
+$result = mysqli_query($conn, "SELECT COUNT(*) AS total FROM aid_program WHERE status = 'Active'");
+$row = mysqli_fetch_assoc($result);
+$total_active_programs = $row['total'];
+
 // Close connection
 mysqli_close($conn);
 ?>
@@ -57,11 +66,11 @@ mysqli_close($conn);
         </div>
         <div class="stat-card">
             <h3>Total Households</h3>
-            <p>312</p>
+            <p><?php echo number_format($total_households); ?></p>
         </div>
         <div class="stat-card">
             <h3>Active Programs</h3>
-            <p>6</p>
+            <p><?php echo number_format($total_active_programs); ?></p>
         </div>
         <div class="stat-card">
             <h3>Recent Transactions</h3>
@@ -81,7 +90,7 @@ mysqli_close($conn);
         <p>Group Residents into households</p>
     </a>
 
-    <a href="aid-program-setup.html" class="action-card">
+    <a href="aid-program-setup.php" class="action-card">
         Aid Program Setup
         <p>Manage aid distribution programs</p>
     </a>
