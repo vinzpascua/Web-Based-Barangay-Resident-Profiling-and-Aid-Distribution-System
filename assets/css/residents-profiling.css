@@ -239,3 +239,17 @@ body {
     font-size: 20px;
     cursor: pointer;
 }
+
+.not-registered{
+    background-color: #000;
+    color: #fff;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    border-radius: 6px;
+}
+
+.rp-table tbody tr:hover {
+    background: #f1f5f9;
+}

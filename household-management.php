@@ -152,10 +152,33 @@ if (isset($_SESSION['role'])) {
             <input type="hidden" id="resident_id" name="resident_id">
 
             <label>Household Number</label>
-            <input type="text" name="household_number" required>
+            <input type="text" name="household_number" readonly>
 
             <label>Head of Family</label>
-            <input type="text" name="head_of_family" required>
+            <input type="text" name="head_of_family" list="residentList" required>
+
+            <datalist id="residentList">
+            <?php
+            $conn = mysqli_connect("localhost", "root", "Password", "barangay_db");
+
+            $res = mysqli_query(
+                $conn,
+                "SELECT first_name, middle_name, last_name, address FROM registered_resi ORDER BY last_name"
+            );
+
+            while ($r = mysqli_fetch_assoc($res)) {
+                $fullName = trim(
+                    $r['first_name'] . ' ' .
+                    $r['middle_name'] . ' ' .
+                    $r['last_name']
+                );
+                $address = htmlspecialchars($r['address']);
+                echo "<option value=\"$fullName\" data-address=\"$address\"></option>";
+            }
+
+            mysqli_close($conn);
+            ?>
+        </datalist>
 
             <label>Address</label>
             <input type="text" name="address" required>
@@ -176,6 +199,6 @@ if (isset($_SESSION['role'])) {
     <button id="close-toast">&times;</button>
 </div>
 
-<script src="assets/js/household-management.js"></script>
+<script src="assets/js/households-management.js"></script>
 </body>
 </html>

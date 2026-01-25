@@ -77,17 +77,19 @@ if (isset($_SESSION['role'])) {
 
                     if ($search !== '') {
                         $search = mysqli_real_escape_string($conn, $search);
-
                         $sql = "
                             SELECT * FROM registered_resi
                             WHERE
                                 first_name LIKE '%$search%' OR
                                 middle_name LIKE '%$search%' OR
                                 last_name LIKE '%$search%' OR
+                                address LIKE '%$search%' OR
+                                birthdate LIKE '%$search%' OR
                                 age LIKE '%$search%' OR
                                 gender LIKE '%$search%' OR
                                 civil_status LIKE '%$search%' OR
                                 occupation LIKE '%$search%' OR
+                                voters_registration_no LIKE '%$search%' OR
                                 contact LIKE '%$search%'
                             ORDER BY id DESC
                         ";
@@ -98,6 +100,19 @@ if (isset($_SESSION['role'])) {
                     $result = mysqli_query($conn, $sql);
 
                     while ($row = mysqli_fetch_assoc($result)) {
+
+                        // Voter registration display
+                        if ($row['voters_registration_no'] === "Not Registered") {
+                            $voterDisplay = "<span class='not-registered'>Not Registered</span>";
+                        } else {
+                            $voterDisplay = htmlspecialchars($row['voters_registration_no']);
+                        }
+
+                        // Contact display (optional but consistent)
+                        $contactDisplay = empty($row['contact']) || $row['contact'] === "N/A"
+                            ? "<span class='not-registered'>N/A</span>"
+                            : htmlspecialchars($row['contact']);
+
                         echo "<tr>
                             <td>{$row['first_name']} {$row['middle_name']} {$row['last_name']}</td>
                             <td>{$row['address']}</td>
@@ -106,8 +121,8 @@ if (isset($_SESSION['role'])) {
                             <td>{$row['gender']}</td>
                             <td>{$row['civil_status']}</td>
                             <td>{$row['occupation']}</td>
-                            <td>{$row['voters_registration_no']}</td>
-                            <td>{$row['contact']}</td>
+                            <td>$voterDisplay</td>
+                            <td>$contactDisplay</td>
                             <td>
                                 <button class='edit'
                                     data-id='{$row['id']}'
@@ -130,9 +145,10 @@ if (isset($_SESSION['role'])) {
                             </td>
                         </tr>";
                     }
+
                     mysqli_close($conn);
                     ?>
-                </tbody>
+                    </tbody>
             </table>
         </div>
 
@@ -166,7 +182,7 @@ if (isset($_SESSION['role'])) {
             <input type="date" name="birthdate" placeholder="Birthdate">
 
             <label>Age</label>
-            <input type="number" name="age" placeholder="Age" required>
+            <input type="number" name="age" placeholder="Age" readonly>
 
             <label>Gender</label>
             <select name="gender" required>
@@ -191,14 +207,14 @@ if (isset($_SESSION['role'])) {
             <input type="text" name="voters_registration_no" placeholder="Voters Registration Number">
 
             <label>Contact</label>
-            <input type="tel" name="contact" placeholder="Contact Number" maxlength="11" pattern="[0-9]{11}" inputmode="numeric">
+            <input type="tel" name="contact" placeholder="Contact Number" maxlength="11" inputmode="numeric">
 
             <button type="submit">Save Resident</button>
         </form>
     </div>
 </div>
 
-<script src="assets/js/resident-profiling.js"></script>
+<script src="assets/js/residente-profiling.js"></script>
 
 </body>
 </html>

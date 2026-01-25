@@ -44,6 +44,8 @@ ADD COLUMN occupation VARCHAR(100) AFTER civil_status;
 
 
 
+
+
 CREATE TABLE registered_household (
     id INT AUTO_INCREMENT PRIMARY KEY,
     household_number VARCHAR(50) NOT NULL,
@@ -52,6 +54,10 @@ CREATE TABLE registered_household (
     household_members TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+ALTER TABLE registered_household
+ADD UNIQUE (household_number);
+
 
 
 

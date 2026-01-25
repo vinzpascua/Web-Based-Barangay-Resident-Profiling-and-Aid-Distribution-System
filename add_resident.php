@@ -14,8 +14,16 @@ $age = $_POST['age'] ?? '';
 $gender = $_POST['gender'] ?? '';
 $civil = $_POST['civil_status'] ?? '';
 $occupation = $_POST['occupation'] ?? '';
-$voters_registration_no = $_POST['voters_registration_no'] ?? '';
-$contact = $_POST['contact'] ?? '';
+$voters_registration_no = trim($_POST['voters_registration_no'] ?? '');
+$contact = trim($_POST['contact'] ?? '');
+
+if ($voters_registration_no === '') {
+    $voters_registration_no = "Not Registered";
+}
+
+if ($contact === '') {
+    $contact = "N/A";
+}
 
 $stmt = mysqli_prepare($conn,
     "INSERT INTO registered_resi

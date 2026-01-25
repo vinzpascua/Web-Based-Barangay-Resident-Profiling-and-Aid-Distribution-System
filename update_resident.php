@@ -11,8 +11,16 @@ $age = $_POST['age'];
 $gender = $_POST['gender'];
 $civil = $_POST['civil_status'];
 $occupation = $_POST['occupation'];
-$voters_registration_no = $_POST['voters_registration_no'];
-$contact = $_POST['contact'];
+$voters_registration_no = trim($_POST['voters_registration_no'] ?? '');
+$contact = trim($_POST['contact'] ?? '');
+
+if ($voters_registration_no === '') {
+    $voters_registration_no = "Not Registered";
+}
+
+if ($contact === '') {
+    $contact = "N/A";
+}
 
 $stmt = mysqli_prepare($conn,
     "UPDATE registered_resi SET
@@ -22,8 +30,19 @@ $stmt = mysqli_prepare($conn,
 
 mysqli_stmt_bind_param(
     $stmt,
-    "sssissssi",
-    $first, $middle, $last, $address, $birthdate, $age, $gender, $civil, $occupation, $voters_registration_no, $contact, $id
+    "sssssisssssi",
+    $first,
+    $middle,
+    $last,
+    $address,
+    $birthdate,
+    $age,
+    $gender,
+    $civil,
+    $occupation,
+    $voters_registration_no,
+    $contact,
+    $id
 );
 
 echo mysqli_stmt_execute($stmt) ? "success" : "error";

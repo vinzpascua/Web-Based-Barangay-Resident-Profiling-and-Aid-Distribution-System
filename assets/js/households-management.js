@@ -5,6 +5,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const closeBtn = document.getElementById('closeModal');
     const form = document.getElementById('addResidentForm');
     const householdId = document.getElementById('resident_id');
+    const headInput = document.querySelector("input[name='head_of_family']");
+    const addressInput = document.querySelector("input[name='address']");
+    const residentList = document.getElementById("residentList");
 
     // toast
     const toast = document.getElementById('members-toast');
@@ -18,12 +21,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // open modal
     addBtn.addEventListener('click', () => {
-        form.reset();
-        householdId.value = "";
-        form.querySelector("button").innerText = "Save Household";
-        modal.classList.add('show');
-        overlay.classList.add('show');
+    form.reset();
+    householdId.value = "";
+    form.querySelector("button").innerText = "Save Household";
+
+    // show placeholder while PHP generates actual number
+    fetch('get_next_household_number.php')
+    .then(res => res.text())
+    .then(num => {
+        form.household_number.value = num;
     });
+
+    modal.classList.add('show');
+    overlay.classList.add('show');
+});
 
     // close modal
     closeBtn.addEventListener('click', closeModal);
@@ -69,7 +80,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     location.reload();
                 }
                 closeModal();
-                toastText.innerText = "Household saved successfully!";
+                toastText.innerText = "Household saved successfully!!";
                 toast.classList.add('show');
             } else {
                 alert('Failed to save household: ' + data);
@@ -127,6 +138,18 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
     });
+
+    headInput.addEventListener("change", () => {
+        const selectedName = headInput.value;
+
+        const option = Array.from(residentList.options)
+            .find(opt => opt.value === selectedName);
+
+        if (option && option.dataset.address) {
+            addressInput.value = option.dataset.address;
+        }
+    });
+
 
     // show members toast
     document.addEventListener('click', function(e){
