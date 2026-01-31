@@ -17,7 +17,7 @@ if (isset($_SESSION['role'])) {
 <head>
     <meta charset="UTF-8">
     <title>Aid Program Setup</title>
-    <link rel="stylesheet" href="assets/css/aid-program-setup.css">
+    <link rel="stylesheet" href="assets/css/aid-programs-setup.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 </head>
 <body>
@@ -27,10 +27,10 @@ if (isset($_SESSION['role'])) {
     <a href="<?php echo $backLink; ?>" class="back-btn">
         <i class="fa-solid fa-arrow-left"></i>
     </a>
-
+    <img src="assets/images/logos.png" alt="Barangay Logo">
     <div class="nav-text">
-        <span class="page-title">Aid Program Setup</span>
-        <p>Manage barangay aid distribution programs</p>
+        <span class="page-title">Barangay Abangan Norte</span>
+        <p>Household Data Management System</p>
     </div>
 </nav>
 

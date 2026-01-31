@@ -8,33 +8,25 @@
 }
 
 body {
-    background: #f4f6f9;
+    background: #144876;
 }
 
+/* NAVBAR */
 .rp-navbar {
     display: flex;
     align-items: center;
-    background: #fff;
+    background: #144876;
     padding: 12px 20px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     gap: 15px;
+
+    border-bottom: 5px solid #F8E431;
 }
 
-.back-btn {
-    background: #fff;
-    color: #000;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-}
-
-.back-btn:hover {
-    background: #222;
-    color: #fff;
+.rp-navbar img {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
 }
 
 .nav-text {
@@ -44,27 +36,43 @@ body {
 }
 
 .page-title {
+    color: #fff;;
     font-size: 22px;
     font-weight: bold;
 }
 
 .nav-text p {
     font-size: 15px;
-    color: #5a5a5a;
+    color: #fff;
     margin-top: 2px;
 }
 
+.back-btn {
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+/* MAIN CONTENT */
 .rp-dashboard {
     padding: 30px;
 }
 
+/* CARD */
 .rp-card {
     background: #fff;
     padding: 25px;
     border-radius: 12px;
     box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    padding-bottom: 40px;
 }
 
+/* UPPER HEADER */
 .rp-header {
     display: flex;
     justify-content: space-between;
@@ -78,13 +86,13 @@ body {
 }
 
 .header-text h2 {
-    font-size: 19px;
+    font-size: 25px;
     font-weight: bold;
     margin-bottom: 2px;
 }
 
 .header-text p {
-    font-size: 14px;
+    font-size: 15px;
     color: #666;
 }
 
@@ -96,8 +104,9 @@ body {
 .rp-actions input {
     padding: 8px 10px;
     border: 1px solid #ccc;
-    border-radius: 6px;
-    width: 220px;
+    border-radius: 10px;
+    width: 350px;
+    background-color: #F1F1F1;
 }
 
 .rp-actions input:focus {
@@ -106,7 +115,7 @@ body {
 }
 
 .add-resident {
-    padding: 8px 14px;
+    padding: 8px 12px;
     background: #000;
     color: #fff;
     border: none;
@@ -114,14 +123,14 @@ body {
     cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 6px;
-    font-weight: 600;
+    gap: 5px;
 }
 
 .add-resident:hover {
     background: #222;
 }
 
+/* TABLE */
 .rp-table table {
     width: 100%;
     border-collapse: collapse;
@@ -129,19 +138,16 @@ body {
 
 .rp-table th,
 .rp-table td {
-    text-align: left;
     padding: 12px 10px;
     border-bottom: 1px solid #ddd;
 }
 
-.rp-table th {
-    background: #f0f0f0;
-    font-weight: 600;
-    font-size: 14px;
+.rp-table td {
+    text-align: center;
 }
 
-.rp-table td {
-    font-size: 14px;
+.rp-table th {
+    font-weight: 600;
 }
 
 .rp-table td button {
@@ -150,27 +156,24 @@ body {
     border-radius: 6px;
     cursor: pointer;
     color: #fff;
-    margin-right: 5px;
-}
-
-.rp-table tbody tr:hover {
-    background: #f1f5f9;
 }
 
 .edit {
-    background: black;
+    background: transparent;
+}
+
+.edit i{
+    color: #000;
+    font-size: 16px;
+}
+
+.delete i{
+    color: #9c2828;
+    font-size: 16px;
 }
 
 .delete {
-    background: #9c2828;
-}
-
-.edit:hover {
-    background: #222;
-}
-
-.delete:hover {
-    background: #7d1f1f;
+    background: transparent;
 }
 
 .modal-overlay {
@@ -183,6 +186,7 @@ body {
     z-index: 999;
 }
 
+/* SHOW OVERLAY */
 .modal-overlay.show {
     opacity: 1;
     pointer-events: auto;
@@ -193,11 +197,11 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%) scale(0);
-    width: 420px;
+    width: 800px;
     background: #fff;
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    z-index: 1000;
+    z-index: 1000; /* ABOVE overlay */
     padding: 25px;
     transition: transform 0.3s ease, opacity 0.3s ease;
     opacity: 0;
@@ -208,9 +212,9 @@ body {
     opacity: 1;
 }
 
-.resident-modal-content h3 {
-    margin-bottom: 15px;
-    font-size: 18px;
+.modal-title {
+    margin-bottom: 20px;
+    font-size: 24px;
 }
 
 .resident-modal-content label {
@@ -246,20 +250,75 @@ body {
     background: #222;
 }
 
+/* FORM GRID */
+.resident-form-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+/* ROW BASE */
+.form-row {
+    display: grid;
+    gap: 12px;
+}
+
+/* COLUMN COUNTS */
+.form-row.one {
+    grid-template-columns: 1fr;
+}
+
+.form-row.three {
+    grid-template-columns: repeat(3, 1fr);
+}
+
+/* FIELD STACK */
+.form-field {
+    display: flex;
+    flex-direction: column;
+}
+
+/* LABEL ON TOP */
+.form-field label {
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+/* INPUT STYLE (unchanged look) */
+.form-field input,
+.form-field select {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+/* KEEP INPUTS CONSISTENT */
+.form-row input,
+.form-row select {
+    width: 100%;
+}
+
 .close-btn {
     position: absolute;
     top: 10px;
     right: 15px;
-    font-size: 22px;
+    font-size: 20px;
     cursor: pointer;
 }
 
-.status-badge{
-    background-color: #000;
+.not-registered{
+    background-color: #C92326;
     color: #fff;
     padding-left: 8px;
     padding-right: 8px;
     padding-top: 4px;
     padding-bottom: 4px;
     border-radius: 6px;
+}
+
+.rp-table tbody tr:hover {
+    background: #f1f5f9;
 }

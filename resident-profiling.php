@@ -16,7 +16,7 @@ if (isset($_SESSION['role'])) {
 <head>
     <meta charset="UTF-8">
     <title>Resident Profiling</title>
-    <link rel="stylesheet" href="assets/css/residents-profiling.css">
+    <link rel="stylesheet" href="assets/css/residente-profiling.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 </head>
 <body>
@@ -26,10 +26,12 @@ if (isset($_SESSION['role'])) {
     <a href="<?php echo $backLink; ?>" class="back-btn">
         <i class="fa-solid fa-arrow-left"></i>
     </a>
+
+    <img src="assets/images/logos.png" alt="Barangay Logo">
     
     <div class="nav-text">
-        <span class="page-title">Resident Profiling</span>
-        <p>Manage resident and household information</p>
+        <span class="page-title">Barangay Abangan Norte</span>
+        <p>Household Data Management System</p>
     </div>
 </nav>
 
@@ -162,52 +164,87 @@ if (isset($_SESSION['role'])) {
 <div class="resident-modal" id="residentModal">
     <div class="resident-modal-content">
         <span class="close-btn" id="closeModal">&times;</span>
-        <h3>Add / Edit Resident</h3>
-        <form id="addResidentForm">
+        <h3 class="modal-title">Add / Edit Resident</h3>
+        <form id="addResidentForm" class="resident-form-grid">
             <input type="hidden" name="resident_id" id="resident_id">
 
-            <label>First Name</label>
-            <input type="text" name="first_name" placeholder="First Name" required>
+            <!-- ROW 1 -->
+            <div class="form-row three">
+                <div class="form-field">
+                    <label>First Name</label>
+                    <input type="text" name="first_name" placeholder="First Name" required>
+                </div>
 
-            <label>Middle Name</label>
-            <input type="text" name="middle_name" placeholder="Middle Name">
+                <div class="form-field">
+                    <label>Middle Name</label>
+                    <input type="text" name="middle_name" placeholder="Middle Name">
+                </div>
 
-            <label>Last Name</label>
-            <input type="text" name="last_name" placeholder="Last Name" required>
+                <div class="form-field">
+                    <label>Last Name</label>
+                    <input type="text" name="last_name" placeholder="Last Name" required>
+                </div>
+            </div>
 
-            <label>Address</label>
-            <input type="text" name="address" placeholder="Address">
+            <!-- ROW 2 -->
+            <div class="form-row one">
+                <div class="form-field">
+                <label>Address</label>
+                <input type="text" name="address" placeholder="Address">
+                </div>
+            </div>
 
-            <label>Birthdate</label>
-            <input type="date" name="birthdate" placeholder="Birthdate">
+            <div class="form-row three">
+                    <div class="form-field">
+                    <label>Birthdate</label>
+                    <input type="date" name="birthdate" placeholder="Birthdate">
+                    </div>
 
-            <label>Age</label>
-            <input type="number" name="age" placeholder="Age" readonly>
+                    <div class="form-field">
+                    <label>Age</label>
+                    <input type="number" name="age" placeholder="Age" readonly>
+                    </div>
 
-            <label>Gender</label>
-            <select name="gender" required>
-                <option value="" disabled selected>Select Gender</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-            </select>
+                    <div class="form-field">
+                    <label>Gender</label>
+                    <select name="gender" required>
+                        <option value="" disabled selected>Select Gender</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                    </div>          
+            </div>
 
-            <label>Civil Status</label>
-            <select name="civil_status" required>
-                <option value="" disabled selected>Select Civil Status</option>
-                <option value="Single">Single</option>
-                <option value="Married">Married</option>
-                <option value="Widowed">Widowed</option>
-                <option value="Divorced">Divorced</option>
-            </select>
+            <div class="form-row one">
+                <div class="form-field">
+                    <label>Civil Status</label>
+                    <select name="civil_status" required>
+                        <option value="" disabled selected>Select Civil Status</option>
+                        <option value="Single">Single</option>
+                        <option value="Married">Married</option>
+                        <option value="Widowed">Widowed</option>
+                        <option value="Divorced">Divorced</option>
+                    </select>
+                    </div>
+            </div>
 
-            <label>Occupation</label>
-            <input type="text" name="occupation" placeholder="Occupation">
+            <!-- ROW 4 -->
+            <div class="form-row three">
+                <div class="form-field">
+                <label>Occupation</label>
+                <input type="text" name="occupation" placeholder="Occupation">
+                </div>
+                
+                <div class="form-field">
+                <label>Contact</label>
+                <input type="tel" name="contact" placeholder="Contact Number" maxlength="11" inputmode="numeric">
+                </div>
 
-            <label>Voters Registration Number</label>
-            <input type="text" name="voters_registration_no" placeholder="Voters Registration Number">
-
-            <label>Contact</label>
-            <input type="tel" name="contact" placeholder="Contact Number" maxlength="11" inputmode="numeric">
+                <div class="form-field">
+                <label>Voters Registration Number</label>
+                <input type="text" name="voters_registration_no" placeholder="Voters Registration Number">
+                </div>
+            </div>
 
             <button type="submit">Save Resident</button>
         </form>

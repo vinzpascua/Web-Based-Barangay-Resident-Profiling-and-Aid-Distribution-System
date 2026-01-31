@@ -1,0 +1,417 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont,
+        'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
+        'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+body {
+    background: #144876;
+}
+
+/* NAVBAR */
+.rp-navbar {
+    display: flex;
+    align-items: center;
+    background: #144876;
+    padding: 12px 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    gap: 15px;
+
+    border-bottom: 5px solid #F8E431;
+}
+
+.rp-navbar img {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+}
+
+.nav-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+}
+
+.page-title {
+    font-size: 22px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.nav-text p {
+    font-size: 15px;
+    color: #fff;
+    margin-top: 2px;
+}
+
+.back-btn {
+    background: transparent;
+    color: #fff;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+
+/* MAIN CONTENT */
+.rp-dashboard {
+    padding: 30px;
+}
+
+/* SUMMARY CARDS */
+.rfid-summary {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.rfid-summary-card-1 {
+    background: #082A48;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    display: flex;
+    gap: 15px;
+    flex: 1;
+    height: 225px;
+}
+
+.rfid-summary-card-2 {
+    background: #026C2F;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    display: flex;
+    gap: 15px;
+    flex: 1;
+    height: 225px;
+}
+
+.rfid-summary-card-3 {
+    background: #C81B20;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    display: flex;
+    gap: 15px;
+    flex: 1;
+    height: 225px;
+}
+
+.rfid-summary-card-1 h3 {
+    font-size: 45px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.rfid-summary-card-1 p {
+    font-size: 17px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.rfid-summary-card-2 h3 {
+    font-size: 45px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.rfid-summary-card-2 p {
+    font-size: 17px;
+    font-weight: bold;
+    color: #fff;
+}
+
+
+.rfid-summary-card-3 h3 {
+    font-size: 45px;
+    font-weight: bold;
+    color: #fff;
+}
+
+.rfid-summary-card-3 p {
+    font-size: 17px;
+    font-weight: bold;
+    color: #fff;
+}
+
+/* CARD */
+.rp-card {
+    background: #fff;
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+}
+
+/* HEADER */
+.rp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.header-text {
+    display: flex;
+    flex-direction: column;
+}
+
+.header-text h2 {
+    font-size: 25px;
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+.header-text p {
+    font-size: 15px;
+    color: #666;
+}
+
+.rp-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.rp-actions input {
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    width: 350px;
+    background-color: #F1F1F1;
+}
+
+.add-tag {
+    padding: 8px 12px;
+    background: #000;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.add-tag:hover {
+    background: #222;
+}
+
+/* TABLE */
+.rp-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.rp-table th,
+.rp-table td {
+    text-align: left;
+    padding: 12px 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.rp-table th {
+    font-weight: 600;
+}
+
+.rp-table tbody tr:hover {
+    background: #f1f5f9;
+}
+
+.edit {
+    background: #000;
+    color: #fff;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.delete {
+    background: #9c2828;
+    color: #fff;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* STATUS */
+.status {
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.status.active {
+    background: #16a34a;
+    color: #fff;
+}
+
+.status.inactive {
+    background: #9c2828;
+    color: #fff;
+}
+
+/* MODAL OVERLAY */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+/* MODAL CONTAINER */
+.resident-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 800px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    z-index: 1000; /* ABOVE overlay */
+    padding: 25px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 0;
+}
+
+.resident-modal-content label {
+    font-weight: 600;
+    font-size: 14px;
+    margin-top: 10px;
+    display: block;
+}
+
+.resident-modal-content input,
+.resident-modal-content select {
+    width: 100%;
+    padding: 8px 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.resident-modal-content button {
+    margin-top: 15px;
+    width: 100%;
+    padding: 10px;
+    background: #000;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.resident-modal-content button:hover {
+    background: #222;
+}
+
+/* SHOW STATE */
+.resident-modal.show {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.modal-overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* MODAL HEADER */
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.modal-header h3 {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* CLOSE BUTTON */
+.close-btn {
+    font-size: 24px;
+    cursor: pointer;
+    border: none;
+    background: none;
+    line-height: 1;
+    color: #333;
+}
+
+.close-btn:hover {
+    color: #9c2828;
+}
+
+/* MODAL BODY */
+.modal-body {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.modal-body label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #444;
+}
+
+.modal-body input,
+.modal-body select {
+    width: 100%;
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    margin-top: 4px;
+}
+
+/* FULL WIDTH FIELD */
+.modal-body .full {
+    grid-column: span 2;
+}
+
+/* MODAL FOOTER */
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 25px;
+    gap: 10px;
+}
+
+.modal-footer button {
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.modal-footer .cancel {
+    background: #e5e7eb;
+}
+
+.modal-footer .save {
+    background: #000;
+    color: #fff;
+}
+
+.modal-footer .save:hover {
+    background: #222;
+}
+

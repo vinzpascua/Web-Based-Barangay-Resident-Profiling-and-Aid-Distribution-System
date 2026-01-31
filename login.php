@@ -82,7 +82,7 @@ mysqli_close($conn);
 <body class="auth-body">
 
 <div class="auth-box">
-    <img src="assets/images/logo.png" alt="logo">
+    <img src="assets/images/logos.png" alt="logo">
     <h2>Barangay Abangan Norte</h2>
     <p class="Household">Household Data Management System</p>
 

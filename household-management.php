@@ -17,7 +17,7 @@ if (isset($_SESSION['role'])) {
     <meta charset="UTF-8">
     <title>Household Management</title>
 
-    <link rel="stylesheet" href="assets/css/household-management.css">
+    <link rel="stylesheet" href="assets/css/household-managements.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 </head>
 <body>
@@ -28,9 +28,11 @@ if (isset($_SESSION['role'])) {
         <i class="fa-solid fa-arrow-left"></i>
     </a>
 
+    <img src="assets/images/logos.png" alt="Barangay Logo">
+
     <div class="nav-text">
-        <span class="page-title">Household Management</span>
-        <p>Group residents into households</p>
+        <span class="page-title">Barangay Abangan Norte</span>
+        <p>Household Data Management System</p>
     </div>
 </nav>
 
@@ -64,6 +66,7 @@ if (isset($_SESSION['role'])) {
                         <th>Head of Family</th>
                         <th>Address</th>
                         <th>Members</th>
+                        <th>RFID No.</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -112,6 +115,7 @@ if (isset($_SESSION['role'])) {
                                     {$displayMembers}
                                 </span>
                             </td>
+                            <td></td>
                             <td>
                                 <button class='edit'
                                     data-id='{$row['id']}'
@@ -187,6 +191,9 @@ if (isset($_SESSION['role'])) {
             <input type="text" name="household_members" required placeholder="Comma-separated list of members">
             
             <p>Separate multiple members with commas (e.g., Juan Dela Cruz, Maria Dela Cruz)</p>
+
+            <label>Assigned RFID</label>
+            <input type="text" name="rfid" required placeholder="Enter RFID Number">
 
             <button type="submit">Add Household</button>
         </form>

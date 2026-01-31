@@ -30,7 +30,7 @@ mysqli_close($conn);
 <head>
     <meta charset="UTF-8">
     <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="assets/css/admin-dashboard.css">
+    <link rel="stylesheet" href="assets/css/admin-dashboarder.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
@@ -38,7 +38,7 @@ mysqli_close($conn);
 <!-- NAVBAR -->
 <nav class="navbar">
     <div class="nav-left">
-        <img src="assets/images/logo.png" alt="Barangay Logo">
+        <img src="assets/images/logos.png" alt="Barangay Logo">
         <div class="nav-text">
             <span>Barangay Abangan Norte</span>
             <p>Household Data Management System</p>
@@ -46,7 +46,7 @@ mysqli_close($conn);
     </div>
 
     <div class="nav-right">
-        <img src="assets/images/profile.png" alt="User">
+        <img src="assets/images/profiles.png" alt="User">
         <span>Welcome, Admin</span>
         <button class="logout" id="logoutBtn">
         <i class="fa-solid fa-right-from-bracket"></i>
@@ -60,42 +60,41 @@ mysqli_close($conn);
 
     <!-- TOP STATS -->
     <section class="stats">
-        <div class="stat-card">
+        <div class="stat-card-1">
             <h3>Total Residents</h3>
             <p><?php echo number_format($total_residents); ?></p>
         </div>
-        <div class="stat-card">
+        <div class="stat-card-2">
             <h3>Total Households</h3>
             <p><?php echo number_format($total_households); ?></p>
         </div>
-        <div class="stat-card">
+        <div class="stat-card-3">
             <h3>Active Programs</h3>
             <p><?php echo number_format($total_active_programs); ?></p>
-        </div>
-        <div class="stat-card">
-            <h3>Recent Transactions</h3>
-            <p>48</p>
         </div>
     </section>
 
     <!-- ACTION CARDS -->
     <section class="actions">
-    <a href="resident-profiling.php" class="action-card">
+    <a href="resident-profiling.php" class="actions-card-1">
         Resident Profiling
         <p>Manage resident and household information</p>
+        <img src="assets/images/resident-profiling.png" alt="resident">
     </a>
 
-    <a href="household-management.php" class="action-card">
+    <a href="household-management.php" class="actions-card-2">
         Household Management
         <p>Group Residents into households</p>
+        <img src="assets/images/household.png" alt="household">
     </a>
 
-    <a href="aid-program-setup.php" class="action-card">
+    <a href="aid-program-setup.php" class="actions-card-3">
         Aid Program Setup
         <p>Manage aid distribution programs</p>
+        <img src="assets/images/aid.png" alt="household">
     </a>
 
-    <a href="rfid-tag-insurance.html" class="action-card">
+    <a href="rfid-tags-insurance.php" class="actions-card-4">
         RFID Tag Insurance
         <p>Assign RFID tags to households</p>
     </a>
@@ -103,11 +102,6 @@ mysqli_close($conn);
     <a href="distribution-page.html" class="action-card">
         Distribution Page
         <p>RFID scanning during aid events</p>
-    </a>
-
-    <a href="transactions-page.html" class="action-card">
-        Transactions Page
-        <p>View transaction history</p>
     </a>
 
     <a href="reports-logs.html" class="action-card">
