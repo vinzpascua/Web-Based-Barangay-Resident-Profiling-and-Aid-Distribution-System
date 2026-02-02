@@ -18,7 +18,7 @@ if (isset($_SESSION['role'])) {
     <meta charset="UTF-8">
     <title>RFID Tag Insurance</title>
 
-    <link rel="stylesheet" href="assets/css/rfid-tags-insurance.css">
+    <link rel="stylesheet" href="assets/css/rfid-tag-insurances.css">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 </head>
@@ -97,12 +97,94 @@ if (isset($_SESSION['role'])) {
                         <th>Head Of Family</th>
                         <th>Date Issued</th>
                         <th>Status</th>
+                        <th>Toggle</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
-                <tbody>
-                    
-                </tbody>
+                    <tbody>
+                    <?php
+                    $conn = mysqli_connect("localhost", "root", "Password", "barangay_db");
+
+                    $query = "
+                        SELECT 
+                            rfid_id,
+                            rfid_number,
+                            household_number,
+                            head_of_family,
+                            date_issued,
+                            status
+                        FROM rfid_tags
+                        ORDER BY date_issued DESC
+                    ";
+
+                    $result = mysqli_query($conn, $query);
+
+                    if ($result && mysqli_num_rows($result) > 0):
+                        while ($row = mysqli_fetch_assoc($result)):
+                    ?>
+                    <tr data-id="<?= $row['rfid_id'] ?>">
+                        <td><?= htmlspecialchars($row['rfid_number']) ?></td>
+                        <td><?= htmlspecialchars($row['household_number']) ?></td>
+                        <td><?= htmlspecialchars($row['head_of_family']) ?></td>
+                        <td><?= date("M d, Y", strtotime($row['date_issued'])) ?></td>
+                        <td>
+                            <span class="status <?= $row['status'] === 'Active' ? 'active' : 'inactive' ?>">
+                                <?= htmlspecialchars($row['status']) ?>
+                            </span>
+                        </td>
+
+                        <td>
+                            <button 
+                                class="edit"
+                                data-id="<?= $row['rfid_id'] ?>"
+                                data-rfid="<?= htmlspecialchars($row['rfid_number']) ?>"
+                                data-household="<?= htmlspecialchars($row['household_number']) ?>"
+                                data-head="<?= htmlspecialchars($row['head_of_family']) ?>"
+                            >
+                                Edit
+                            </button>
+
+                            <button 
+                                class="delete"
+                                data-id="<?= $row['rfid_id'] ?>"
+                            >
+                                Delete
+                            </button>
+                        </td>
+
+                        <td>
+                            <?php if ($row['status'] === 'Active'): ?>
+                                <button 
+                                    class="deactivate-btn"
+                                    data-id="<?= $row['rfid_id'] ?>"
+                                >
+                                    Deactivate
+                                </button>
+                            <?php else: ?>
+                                <button 
+                                    class="activate-btn"
+                                    data-id="<?= $row['rfid_id'] ?>"
+                                >
+                                    Activate
+                                </button>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                    <?php
+                        endwhile;
+                    else:
+                    ?>
+                    <tr>
+                        <td colspan="7" style="text-align:center;">
+                            No RFID tags found
+                        </td>
+                    </tr>
+                    <?php
+                    endif;
+
+                    mysqli_close($conn);
+                    ?>
+                    </tbody>
             </table>
         </div>
 
@@ -118,23 +200,23 @@ if (isset($_SESSION['role'])) {
         <span class="close-btn" id="closeModal">&times;</span>
         <h3>Add / Edit Tag</h3>
         <form id="addResidentForm">
-            <input type="hidden" name="resident_id" id="resident_id">
+            <input type="hidden" name="rfid_id" id="rfid_id">
 
-            <label>RFID Number</label>
-            <input type="text" name="rfid_number" placeholder="RFID Number" required>
+        <label>RFID Number</label>
+        <input type="text" name="rfid_number" id="rfid_number" placeholder="RFID Number" required>
 
-            <label>Household Number</label>
-            <input type="text" name="household_number" placeholder="Household Number">
+        <label>Household Number</label>
+        <input type="text" name="household_number" id="household_number" placeholder="Household Number">
 
-            <label>Head Of Family</label>
-            <input type="text" name="head_of_family" placeholder="head_of_family" required>
+        <label>Head Of Family</label>
+        <input type="text" name="head_of_family" id="head_of_family" placeholder="Head Of Family" required>
 
             <button type="submit">Issue Tag</button>
         </form>
     </div>
 </div>
 
-<script src="assets/js/rfid-tag.js"></script>
+<script src="assets/js/rfid-tagss.js"></script>
 
 </body>
 </html>

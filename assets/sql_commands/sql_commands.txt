@@ -58,6 +58,8 @@ CREATE TABLE registered_household (
 ALTER TABLE registered_household
 ADD UNIQUE (household_number);
 
+ALTER TABLE registered_household
+ADD COLUMN rfid VARCHAR(50) NOT NULL;
 
 
 
@@ -69,4 +71,15 @@ CREATE TABLE aid_program (
     date_scheduled DATE,
     beneficiaries INT,
     status VARCHAR(50)
+);
+
+
+
+CREATE TABLE rfid_tags (
+    rfid_id INT AUTO_INCREMENT PRIMARY KEY,
+    rfid_number VARCHAR(50) UNIQUE,
+    household_number VARCHAR(50),
+    head_of_family VARCHAR(100),
+    date_issued TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    status ENUM('Active','Inactive') DEFAULT 'Active'
 );

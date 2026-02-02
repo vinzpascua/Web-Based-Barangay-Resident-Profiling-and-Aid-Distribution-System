@@ -115,14 +115,15 @@ if (isset($_SESSION['role'])) {
                                     {$displayMembers}
                                 </span>
                             </td>
-                            <td></td>
+                            <td>{$row['rfid']}</td>
                             <td>
                                 <button class='edit'
                                     data-id='{$row['id']}'
                                     data-number='{$row['household_number']}'
                                     data-head='{$row['head_of_family']}'
                                     data-address='{$row['address']}'
-                                    data-members='{$membersData}'>
+                                    data-members='{$membersData}'
+                                    data-rfid='{$row['rfid']}'>
                                     <i class='fa-solid fa-pen-to-square'></i>
                                 </button>
                                 <button class='delete' data-id='{$row['id']}'>
@@ -206,6 +207,6 @@ if (isset($_SESSION['role'])) {
     <button id="close-toast">&times;</button>
 </div>
 
-<script src="assets/js/households-management.js"></script>
+<script src="assets/js/households-managements.js"></script>
 </body>
 </html>

@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const headInput = document.querySelector("input[name='head_of_family']");
     const addressInput = document.querySelector("input[name='address']");
     const residentList = document.getElementById("residentList");
+    const rfidInput = document.querySelector("input[name='rfid']");
 
     // toast
     const toast = document.getElementById('members-toast');
@@ -95,16 +96,22 @@ document.addEventListener("DOMContentLoaded", () => {
     // edit
     document.addEventListener('click', function(e){
         if(e.target.closest('.edit')) {
-            const btn = e.target.closest('.edit');
-            householdId.value = btn.dataset.id;
-            form.household_number.value = btn.dataset.number;
-            form.head_of_family.value = btn.dataset.head;
-            form.address.value = btn.dataset.address;
-            form.household_members.value = btn.dataset.members;
-            form.querySelector("button").innerText = "Update Household";
+        const btn = e.target.closest('.edit');
 
-            modal.classList.add('show');
-            overlay.classList.add('show');
+        householdId.value = btn.dataset.id || "";
+        form.querySelector("input[name='household_number']").value = btn.dataset.number || "";
+        form.querySelector("input[name='head_of_family']").value = btn.dataset.head || "";
+        form.querySelector("input[name='address']").value = btn.dataset.address || "";
+        form.querySelector("input[name='household_members']").value = btn.dataset.members || "";
+
+        if (rfidInput && btn.dataset.rfid) {
+            rfidInput.value = btn.dataset.rfid;
+        }
+
+        form.querySelector("button").innerText = "Update Household";
+
+        modal.classList.add('show');
+        overlay.classList.add('show');
         }
     });
 

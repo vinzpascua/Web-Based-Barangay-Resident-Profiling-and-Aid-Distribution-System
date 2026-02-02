@@ -8,13 +8,15 @@ if(!$conn){
 }
 
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
+
     $id = trim($_POST['resident_id'] ?? '');
     $household_number = trim($_POST['household_number'] ?? '');
     $head_of_family = trim($_POST['head_of_family'] ?? '');
     $address = trim($_POST['address'] ?? '');
     $household_members = trim($_POST['household_members'] ?? '');
+    $rfid = trim($_POST['rfid'] ?? '');
 
-    if($address === '' || $household_members === ''){
+    if($address === '' || $household_members === '' || $rfid === ''){
         echo "Please fill all required fields";
         exit;
     }
@@ -44,32 +46,37 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
         $stmt = mysqli_prepare(
             $conn,
             "INSERT INTO registered_household 
-            (household_number, head_of_family, address, household_members) 
-            VALUES (?, ?, ?, ?)"
+            (household_number, head_of_family, address, household_members, rfid) 
+            VALUES (?, ?, ?, ?, ?)"
         );
+
         mysqli_stmt_bind_param(
             $stmt,
-            "ssss",
+            "sssss",
             $household_number,
             $head_of_family,
             $address,
-            $household_members
+            $household_members,
+            $rfid
         );
 
     } else {
-        // UPDATE existing household (DO NOT change household number)
+
+        // UPDATE existing household
         $stmt = mysqli_prepare(
             $conn,
             "UPDATE registered_household 
-             SET head_of_family=?, address=?, household_members=? 
+             SET head_of_family=?, address=?, household_members=?, rfid=? 
              WHERE id=?"
         );
+
         mysqli_stmt_bind_param(
             $stmt,
-            "sssi",
+            "ssssi",
             $head_of_family,
             $address,
             $household_members,
+            $rfid,
             $id
         );
     }
@@ -82,6 +89,7 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
     mysqli_stmt_close($stmt);
     mysqli_close($conn);
+
 } else {
     echo "Invalid request";
 }
