@@ -18,11 +18,15 @@ if (isset($_SESSION['role'])) {
     <meta charset="UTF-8">
     <title>RFID Tag Insurance</title>
 
-    <link rel="stylesheet" href="assets/css/rfid-tag-insurances.css">
+    <link rel="stylesheet" href="assets/css/rfid-tag-insurance.css">
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 </head>
 <body>
+
+<?php include 'includes/sidebar.php'; ?>
+<link rel="stylesheet" href="includes/sidebar.css">
+<script src="includes/sidebar.js"></script>
 
 <!-- NAVBAR -->
 <nav class="rp-navbar">

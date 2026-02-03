@@ -16,10 +16,15 @@ if (isset($_SESSION['role'])) {
 <head>
     <meta charset="UTF-8">
     <title>Resident Profiling</title>
-    <link rel="stylesheet" href="assets/css/residente-profiling.css">
+    <link rel="stylesheet" href="assets/css/residents-profiling.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 </head>
 <body>
+
+
+<?php include 'includes/sidebar.php'; ?>
+<link rel="stylesheet" href="includes/sidebar.css">
+<script src="includes/sidebar.js"></script>
 
 <!-- NAVBAR -->
 <nav class="rp-navbar">
@@ -27,11 +32,12 @@ if (isset($_SESSION['role'])) {
         <i class="fa-solid fa-arrow-left"></i>
     </a>
 
-    <img src="assets/images/logos.png" alt="Barangay Logo">
-    
-    <div class="nav-text">
-        <span class="page-title">Barangay Abangan Norte</span>
-        <p>Household Data Management System</p>
+    <div class="rp-navbar-content"><!-- WRAP CONTENT TO HIDE -->
+        <img src="assets/images/logos.png" alt="Barangay Logo">
+        <div class="nav-text">
+            <span class="page-title">Barangay Abangan Norte</span>
+            <p>Household Data Management System</p>
+        </div>
     </div>
 </nav>
 
@@ -251,7 +257,7 @@ if (isset($_SESSION['role'])) {
     </div>
 </div>
 
-<script src="assets/js/residente-profiling.js"></script>
+<script src="assets/js/residents-profiling.js"></script>
 
 </body>
 </html>

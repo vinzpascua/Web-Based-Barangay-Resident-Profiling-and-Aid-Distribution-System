@@ -61,8 +61,19 @@ body {
 
 
 /* MAIN CONTENT */
+.rp-navbar a {
+    margin-left: 55px;
+}
+
+/* Shift main content when sidebar expands */
 .rp-dashboard {
+    transition: margin-left 0.3s ease;
+    margin-left: 75px; /* sidebar collapsed width */
     padding: 30px;
+}
+
+.rp-dashboard.expanded {
+    margin-left: 250px; /* sidebar expanded width */
 }
 
 /* SUMMARY CARDS */

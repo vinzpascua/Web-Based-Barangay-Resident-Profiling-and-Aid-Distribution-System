@@ -9,6 +9,7 @@ const ageInput = form.age;
 
 let isEdit = false;
 
+
 // ===== AGE CALCULATION =====
 function calculateAge(birthdate) {
     if (!birthdate) return "";

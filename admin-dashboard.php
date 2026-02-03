@@ -30,14 +30,32 @@ mysqli_close($conn);
 <head>
     <meta charset="UTF-8">
     <title>Admin Dashboard</title>
-    <link rel="stylesheet" href="assets/css/admin-dashboarder.css">
+    <link rel="stylesheet" href="assets/css/admins-dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
 
+<!-- SIDEBAR -->
+<div class="sidebar collapsed" id="sidebar">
+    <button class="toggle-btn" id="toggleSidebar">
+        <i class="fa-solid fa-bars" id="sidebarIcon"></i>
+    </button>
+
+    <div class="sidebar-content" id="sidebarContent">
+        <!-- nav-left will move here when sidebar is expanded -->
+    </div>
+
+    <ul class="sidebar-menu">
+        <li><a href="resident-profiling.php"><i class="fa-solid fa-users"></i> <span>Residents</span></a></li>
+        <li><a href="household-management.php"><i class="fa-solid fa-house"></i> <span>Households</span></a></li>
+        <li><a href="aid-program-setup.php"><i class="fa-solid fa-hand-holding-heart"></i> <span>Aid Programs</span></a></li>
+        <li><a href="reports-logs.html"><i class="fa-solid fa-file-lines"></i> <span>Reports</span></a></li>
+    </ul>
+</div>
+
 <!-- NAVBAR -->
 <nav class="navbar">
-    <div class="nav-left">
+    <div class="nav-left" id="navLeft">
         <img src="assets/images/logos.png" alt="Barangay Logo">
         <div class="nav-text">
             <span>Barangay Abangan Norte</span>
@@ -45,18 +63,21 @@ mysqli_close($conn);
         </div>
     </div>
 
-    <div class="nav-right">
-        <img src="assets/images/profiles.png" alt="User">
-        <span>Welcome, Admin</span>
+    <div class="nav-right" id="navRight">
+        <div class="nav-user">
+            <img src="assets/images/profiles.png" alt="User">
+            <span>Welcome, Admin</span>
+        </div>
+
         <button class="logout" id="logoutBtn">
-        <i class="fa-solid fa-right-from-bracket"></i>
-        Logout
-    </button>
+            <i class="fa-solid fa-right-from-bracket"></i>
+            Logout
+        </button>
     </div>
 </nav>
 
 <!-- MAIN CONTENT -->
-<main class="dashboard">
+<main class="dashboard" id="mainContent">
 
     <!-- TOP STATS -->
     <section class="stats">
@@ -130,24 +151,9 @@ mysqli_close($conn);
     </div>
 </div>
 
-<script>
-const logoutBtn = document.getElementById('logoutBtn');
-const toast = document.getElementById('logout-toast');
-const confirmBtn = document.getElementById('confirm-logout');
-const cancelBtn = document.getElementById('cancel-logout');
+<script src="assets/js/admin-dashboards.js"></script>
 
-logoutBtn.addEventListener('click', () => {
-    toast.style.display = 'block'; // show toast
-});
 
-confirmBtn.addEventListener('click', () => {
-    window.location.href = "login.php"; // redirect
-});
-
-cancelBtn.addEventListener('click', () => {
-    toast.style.display = 'none'; // hide toast
-});
-</script>
 
 </body>
 </html>

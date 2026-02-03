@@ -17,10 +17,14 @@ if (isset($_SESSION['role'])) {
 <head>
     <meta charset="UTF-8">
     <title>Aid Program Setup</title>
-    <link rel="stylesheet" href="assets/css/aid-programs-setup.css">
+    <link rel="stylesheet" href="assets/css/aid-program-setup.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
 </head>
 <body>
+
+<?php include 'includes/sidebar.php'; ?>
+<link rel="stylesheet" href="includes/sidebar.css">
+<script src="includes/sidebar.js"></script>
 
 <!-- NAVBAR -->
 <nav class="rp-navbar">

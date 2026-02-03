@@ -21,6 +21,7 @@ body {
     gap: 15px;
 
     border-bottom: 5px solid #F8E431;
+
 }
 
 .rp-navbar img {
@@ -29,10 +30,38 @@ body {
     border-radius: 50%;
 }
 
+.rp-navbar-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.rp-navbar a {
+    margin-left: 55px;
+}
+
+.rp-navbar-content.hidden {
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none; /* prevent interaction while hidden */
+}
+
+/* Shift main content when sidebar expands */
+.rp-dashboard {
+    transition: margin-left 0.3s ease;
+    margin-left: 75px; /* sidebar collapsed width */
+}
+
+.rp-dashboard.expanded {
+    margin-left: 250px; /* sidebar expanded width */
+}
+
 .nav-text {
     display: flex;
     flex-direction: column;
     line-height: 1.2;
+    
 }
 
 .page-title {
