@@ -19,8 +19,7 @@ if (isset($_SESSION['role'])) {
     <title>RFID Tag Insurance</title>
 
     <link rel="stylesheet" href="assets/css/rfid-tag-insurance.css">
-    <link rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    <link rel="stylesheet" href="fontawesome/fontawesome/css/all.css">
 </head>
 <body>
 

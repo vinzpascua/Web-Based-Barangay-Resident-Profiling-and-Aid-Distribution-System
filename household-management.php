@@ -17,8 +17,8 @@ if (isset($_SESSION['role'])) {
     <meta charset="UTF-8">
     <title>Household Management</title>
 
-    <link rel="stylesheet" href="assets/css/household-management.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+    <link rel="stylesheet" href="assets/css/households-management.css">
+    <link rel="stylesheet" href="fontawesome/fontawesome/css/all.css">
 </head>
 <body>
 
@@ -154,53 +154,158 @@ if (isset($_SESSION['role'])) {
 
 <div class="resident-modal" id="residentModal">
     <div class="resident-modal-content">
-        <span class="close-btn" id="closeModal">&times;</span>
-        <h3>Add / Edit Resident</h3>
 
+        <!-- HEADER -->
+        <div class="modal-header">
+            <div class="modal-title">
+                <i class="fa-solid fa-house" id="modalIcon"></i>
+                <h3 id="modalTitle">Add New Household</h3>
+            </div>
+            <span class="close-btn" id="closeModal">&times;</span>
+        </div>
+
+        <!-- BODY -->
         <form id="addResidentForm">
             <input type="hidden" id="resident_id" name="resident_id">
 
-            <label>Household Number</label>
-            <input type="text" name="household_number" readonly>
+            <!-- ROW 1 -->
+            <div class="form-row two-col">
+                <div class="form-group">
+                    <label>Household Number</label>
+                    <input type="text" name="household_number" readonly>
+                </div>
 
-            <label>Head of Family</label>
-            <input type="text" name="head_of_family" list="residentList" required>
+                <div class="form-group head-picker">
+                    <label>Head of Family</label>
+                    <input type="text" name="head_of_family" id="headInput" autocomplete="off" required>
 
-            <datalist id="residentList">
-            <?php
-            $conn = mysqli_connect("localhost", "root", "Password", "barangay_db");
+                    <!-- MINI TABLE OVERLAY -->
+                    <div class="resident-picker" id="residentPicker">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Address</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $conn = mysqli_connect("localhost", "root", "Password", "barangay_db");
+                                $res = mysqli_query($conn, "
+                                    SELECT first_name, middle_name, last_name, address
+                                    FROM registered_resi
+                                    ORDER BY last_name
+                                ");
 
-            $res = mysqli_query(
-                $conn,
-                "SELECT first_name, middle_name, last_name, address FROM registered_resi ORDER BY last_name"
-            );
+                                while ($r = mysqli_fetch_assoc($res)) {
+                                    $fullName = trim(
+                                        $r['first_name'] . ' ' .
+                                        $r['middle_name'] . ' ' .
+                                        $r['last_name']
+                                    );
+                                    $address = htmlspecialchars($r['address']);
 
-            while ($r = mysqli_fetch_assoc($res)) {
-                $fullName = trim(
-                    $r['first_name'] . ' ' .
-                    $r['middle_name'] . ' ' .
-                    $r['last_name']
-                );
-                $address = htmlspecialchars($r['address']);
-                echo "<option value=\"$fullName\" data-address=\"$address\"></option>";
-            }
+                                    echo "
+                                    <tr>
+                                        <td>{$fullName}</td>
+                                        <td>{$address}</td>
+                                        <td>
+                                            <button type='button'
+                                                class='select-resident'
+                                                data-name=\"{$fullName}\"
+                                                data-address=\"{$address}\">
+                                                Select
+                                            </button>
+                                        </td>
+                                    </tr>";
+                                }
+                                mysqli_close($conn);
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
 
-            mysqli_close($conn);
-            ?>
-        </datalist>
+            <!-- ROW 2 -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Address</label>
+                    <input type="text" name="address" required>
+                </div>
+            </div>
 
-            <label>Address</label>
-            <input type="text" name="address" required>
+            <!-- ROW 3 -->
+            <div class="form-group members-picker">
+                <label>Household Members</label>
+                <input type="text" name="household_members" id="membersInput" 
+                    placeholder="Juan Dela Cruz, Maria Dela Cruz" >
 
-            <label>Household Members</label>
-            <input type="text" name="household_members" required placeholder="Comma-separated list of members">
-            
-            <p>Separate multiple members with commas (e.g., Juan Dela Cruz, Maria Dela Cruz)</p>
+                <small>Click Add to include members</small>
 
-            <label>Assigned RFID</label>
-            <input type="text" name="rfid" required placeholder="Enter RFID Number">
+                <div class="members-table" id="membersTable">
+                    <table>
+                        <thead>
+                            <tr class="search-row">
+                                <th colspan="3">
+                                    <input type="text" id="memberSearch" placeholder="Search resident...">
+                                </th>
+                            </tr>
+                            <tr class="header-row">
+                                <th>Name</th>
+                                <th>Address</th>
+                                <th style="width:90px;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                                $conn = mysqli_connect("localhost", "root", "Password", "barangay_db");
+                                $res = mysqli_query($conn, "
+                                    SELECT first_name, middle_name, last_name, address
+                                    FROM registered_resi
+                                    ORDER BY last_name
+                                ");
 
-            <button type="submit">Add Household</button>
+                                while ($r = mysqli_fetch_assoc($res)) {
+                                    $fullName = trim(
+                                        $r['first_name'] . ' ' .
+                                        $r['middle_name'] . ' ' .
+                                        $r['last_name']
+                                    );
+                                    $address = htmlspecialchars($r['address']);
+
+                                    echo "
+                                    <tr>
+                                        <td>{$fullName}</td>
+                                        <td>{$address}</td>
+                                        <td>
+                                            <button type='button'
+                                                class='add-member'
+                                                data-name=\"{$fullName}\">
+                                                Add
+                                            </button>
+                                        </td>
+                                    </tr>";
+                                }
+                                mysqli_close($conn);
+                                ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+
+            <!-- ROW 4 -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Assigned RFID</label>
+                    <input type="text" name="rfid" required placeholder="Enter RFID Number">
+                </div>
+            </div>
+
+            <button type="submit" id="saveHouseholdBtn">Save Household</button>
         </form>
     </div>
 </div>
@@ -211,6 +316,6 @@ if (isset($_SESSION['role'])) {
     <button id="close-toast">&times;</button>
 </div>
 
-<script src="assets/js/households-managements.js"></script>
+<script src="assets/js/household-management.js"></script>
 </body>
 </html>

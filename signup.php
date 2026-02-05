@@ -71,7 +71,7 @@ mysqli_close($conn);
 
     <div class="auth-header">
         <div class="auth-image">
-            <img src="assets/images/profile.png" alt="Profile Picture">
+            <img src="assets/images/profiles.png" alt="Profile Picture">
         </div>
         <div class="auth-text">
             <h2>Create Account</h2>

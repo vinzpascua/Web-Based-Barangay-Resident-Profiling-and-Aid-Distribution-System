@@ -31,7 +31,7 @@ mysqli_close($conn);
     <meta charset="UTF-8">
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="assets/css/admins-dashboard.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="fontawesome/fontawesome/css/all.css">
 </head>
 <body>
 
