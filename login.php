@@ -49,9 +49,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST['login'])) {
                 if ($role === 'admin') {
                     header("Location: admin-dashboard.php");
                 } elseif ($role === 'staff') {
-                    header("Location: staff-dashboard.html");
-                } elseif ($role === 'official') {
-                    header("Location: official-dashboard.html");
+                    header("Location: staff-dashboard.php");
                 } else {
                     header("Location: dashboard.html");
                 }

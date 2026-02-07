@@ -6,7 +6,7 @@ if (isset($_SESSION['role'])) {
     if ($_SESSION['role'] === 'admin') {
         $backLink = "admin-dashboard.php";
     } elseif ($_SESSION['role'] === 'staff') {
-        $backLink = "staff-dashboard.html";
+        $backLink = "staff-dashboard.php";
     }
 }
 ?>
@@ -16,7 +16,7 @@ if (isset($_SESSION['role'])) {
 <head>
     <meta charset="UTF-8">
     <title>Resident Profiling</title>
-    <link rel="stylesheet" href="assets/css/residents-profiling.css">
+    <link rel="stylesheet" href="assets/css/resident-profiling.css">
     <link rel="stylesheet" href="fontawesome/fontawesome/css/all.css">
 </head>
 <body>
@@ -62,103 +62,103 @@ if (isset($_SESSION['role'])) {
         </div>
 
         <!-- LOWER PART: TABLE -->
-        <div class="rp-table">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Addresss</th>
-                        <th>Birthdate</th>
-                        <th>Age</th>
-                        <th>Gender</th>
-                        <th>Civil Status</th>
-                        <th>Occupation</th>
-                        <th>Voters Registration Number</th>
-                        <th>Contact</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    $conn = mysqli_connect("localhost", "root", "Password", "barangay_db");
-                    $search = $_GET['search'] ?? '';
+<div class="rp-table">
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Birthdate</th>
+                <th>Gender</th>
+                <th>Civil Status</th>
+                <th>Occupation</th>
+                <th>Voters Registration Number</th>
+                <th>Contact</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            $conn = mysqli_connect("localhost", "root", "Password", "barangay_db");
+            $search = $_GET['search'] ?? '';
 
-                    if ($search !== '') {
-                        $search = mysqli_real_escape_string($conn, $search);
-                        $sql = "
-                            SELECT * FROM registered_resi
-                            WHERE
-                                first_name LIKE '%$search%' OR
-                                middle_name LIKE '%$search%' OR
-                                last_name LIKE '%$search%' OR
-                                address LIKE '%$search%' OR
-                                birthdate LIKE '%$search%' OR
-                                age LIKE '%$search%' OR
-                                gender LIKE '%$search%' OR
-                                civil_status LIKE '%$search%' OR
-                                occupation LIKE '%$search%' OR
-                                voters_registration_no LIKE '%$search%' OR
-                                contact LIKE '%$search%'
-                            ORDER BY id DESC
-                        ";
-                    } else {
-                        $sql = "SELECT * FROM registered_resi ORDER BY id DESC";
-                    }
+            if ($search !== '') {
+                $search = mysqli_real_escape_string($conn, $search);
+                $sql = "
+                    SELECT * FROM registered_resi
+                    WHERE
+                        first_name LIKE '%$search%' OR
+                        middle_name LIKE '%$search%' OR
+                        last_name LIKE '%$search%' OR
+                        address LIKE '%$search%' OR
+                        birthdate LIKE '%$search%' OR
+                        gender LIKE '%$search%' OR
+                        civil_status LIKE '%$search%' OR
+                        occupation LIKE '%$search%' OR
+                        voters_registration_no LIKE '%$search%' OR
+                        contact LIKE '%$search%'
+                    ORDER BY id DESC
+                ";
+            } else {
+                $sql = "SELECT * FROM registered_resi ORDER BY id DESC";
+            }
 
-                    $result = mysqli_query($conn, $sql);
+            $result = mysqli_query($conn, $sql);
 
-                    while ($row = mysqli_fetch_assoc($result)) {
+            while ($row = mysqli_fetch_assoc($result)) {
+                // Voter registration display
+                $voterDisplay = ($row['voters_registration_no'] === "Not Registered")
+                    ? "<span class='not-registered'>Not Registered</span>"
+                    : htmlspecialchars($row['voters_registration_no']);
 
-                        // Voter registration display
-                        if ($row['voters_registration_no'] === "Not Registered") {
-                            $voterDisplay = "<span class='not-registered'>Not Registered</span>";
-                        } else {
-                            $voterDisplay = htmlspecialchars($row['voters_registration_no']);
-                        }
+                // Contact display
+                $contactDisplay = empty($row['contact']) || $row['contact'] === "N/A"
+                    ? "<span class='not-registered'>N/A</span>"
+                    : htmlspecialchars($row['contact']);
 
-                        // Contact display (optional but consistent)
-                        $contactDisplay = empty($row['contact']) || $row['contact'] === "N/A"
-                            ? "<span class='not-registered'>N/A</span>"
-                            : htmlspecialchars($row['contact']);
+                // Custom tooltip for age
+                $birthdate = htmlspecialchars($row['birthdate']);
+                $age = htmlspecialchars($row['age']);
+                $birthdateTooltip = "<span class='birthdate-tooltip' data-age='Age: $age'>$birthdate</span>";
 
-                        echo "<tr>
-                            <td>{$row['first_name']} {$row['middle_name']} {$row['last_name']}</td>
-                            <td>{$row['address']}</td>
-                            <td>{$row['birthdate']}</td>
-                            <td>{$row['age']}</td>
-                            <td>{$row['gender']}</td>
-                            <td>{$row['civil_status']}</td>
-                            <td>{$row['occupation']}</td>
-                            <td>$voterDisplay</td>
-                            <td>$contactDisplay</td>
-                            <td>
-                                <button class='edit'
-                                    data-id='{$row['id']}'
-                                    data-first='{$row['first_name']}'
-                                    data-middle='{$row['middle_name']}'
-                                    data-last='{$row['last_name']}'
-                                    data-address='{$row['address']}'
-                                    data-birthdate='{$row['birthdate']}'
-                                    data-age='{$row['age']}'
-                                    data-gender='{$row['gender']}'
-                                    data-civil='{$row['civil_status']}'
-                                    data-occupation='{$row['occupation']}'
-                                    data-voters='{$row['voters_registration_no']}'
-                                    data-contact='{$row['contact']}'>
-                                    <i class='fa-solid fa-pen-to-square'></i>
-                                </button>
-                                <button class='delete' data-id='{$row['id']}'>
-                                    <i class='fa-solid fa-trash'></i>
-                                </button>
-                            </td>
-                        </tr>";
-                    }
+                echo "<tr>
+                    <td>{$row['first_name']} {$row['middle_name']} {$row['last_name']}</td>
+                    <td>{$row['address']}</td>
+                    <td>$birthdateTooltip</td>
+                    <td>{$row['gender']}</td>
+                    <td>{$row['civil_status']}</td>
+                    <td>{$row['occupation']}</td>
+                    <td>$voterDisplay</td>
+                    <td>$contactDisplay</td>
+                    <td>
+                        <button class='edit'
+                            data-id='{$row['id']}'
+                            data-first='{$row['first_name']}'
+                            data-middle='{$row['middle_name']}'
+                            data-last='{$row['last_name']}'
+                            data-address='{$row['address']}'
+                            data-birthdate='{$row['birthdate']}'
+                            data-age='{$row['age']}'
+                            data-gender='{$row['gender']}'
+                            data-civil='{$row['civil_status']}'
+                            data-occupation='{$row['occupation']}'
+                            data-voters='{$row['voters_registration_no']}'
+                            data-contact='{$row['contact']}'>
+                            <i class='fa-solid fa-pen-to-square'></i>
+                        </button>
+                        <button class='delete' data-id='{$row['id']}'>
+                            <i class='fa-solid fa-trash'></i>
+                        </button>
+                    </td>
+                </tr>";
+            }
 
-                    mysqli_close($conn);
-                    ?>
-                    </tbody>
-            </table>
-        </div>
+            mysqli_close($conn);
+            ?>
+        </tbody>
+    </table>
+</div>
+
 
     </div>
 
@@ -257,7 +257,23 @@ if (isset($_SESSION['role'])) {
     </div>
 </div>
 
-<script src="assets/js/residents-profiling.js"></script>
+<!-- Custom Popup -->
+<link rel="stylesheet" href="assets/popup/popup.css">
+
+<div id="popup-container"></div>
+
+<script>
+fetch("assets/popup/popup.html")
+    .then(res => res.text())
+    .then(html => {
+        document.getElementById("popup-container").innerHTML = html;
+    });
+</script>
+
+<script src="assets/popup/popup.js" defer></script>
+
+
+<script src="assets/js/resident-profiling.js"></script>
 
 </body>
 </html>

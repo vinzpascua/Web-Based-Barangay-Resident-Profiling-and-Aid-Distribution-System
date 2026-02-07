@@ -225,21 +225,37 @@ body {
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) scale(0);
+    transform: translate(-50%, -50%); /* ❌ removed scale */
     width: 800px;
     background: #fff;
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    z-index: 1000; /* ABOVE overlay */
+    z-index: 1000;
     padding: 25px;
-    transition: transform 0.3s ease, opacity 0.3s ease;
+
     opacity: 0;
+    visibility: hidden; /* 👈 important */
+    transition: opacity 0.3s ease;
 }
 
 .resident-modal.show {
-    transform: translate(-50%, -50%) scale(1);
     opacity: 1;
+    visibility: visible;
 }
+
+/* IMPORTANT: allow date picker to escape modal */
+.resident-modal,
+.resident-modal-content {
+    overflow: visible;
+}
+
+/* Raise date picker above overlay */
+input[type="date"] {
+    position: relative;
+    z-index: 1100;
+}
+
+/* ---------- UNCHANGED ---------- */
 
 .modal-title {
     margin-bottom: 20px;
@@ -285,6 +301,7 @@ body {
     flex-direction: column;
     gap: 5px;
 }
+
 
 /* ROW BASE */
 .form-row {
@@ -350,4 +367,33 @@ body {
 
 .rp-table tbody tr:hover {
     background: #f1f5f9;
+}
+
+
+.birthdate-tooltip {
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.birthdate-tooltip::after {
+    content: attr(data-age);
+    position: absolute;
+    bottom: 125%; /* show above the text */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #000;
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 10;
+}
+
+.birthdate-tooltip:hover::after {
+    opacity: 1;
 }

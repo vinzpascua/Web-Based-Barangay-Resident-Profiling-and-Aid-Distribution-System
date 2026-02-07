@@ -6,7 +6,7 @@ if (isset($_SESSION['role'])) {
     if ($_SESSION['role'] === 'admin') {
         $backLink = "admin-dashboard.php";
     } elseif ($_SESSION['role'] === 'staff') {
-        $backLink = "staff-dashboard.html";
+        $backLink = "staff-dashboard.php";
     }
 }
 ?>

@@ -29,7 +29,7 @@ mysqli_close($conn);
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Admin Dashboard</title>
+    <title>Staff Dashboard</title>
     <link rel="stylesheet" href="assets/css/admin-dashboard.css">
     <link rel="stylesheet" href="fontawesome/fontawesome/css/all.css">
 </head>
@@ -72,7 +72,7 @@ mysqli_close($conn);
 
     <div class="nav-right">
         <img src="assets/images/profiles.png" alt="User">
-        <span>Welcome, Admin</span>
+        <span>Welcome, Staff</span>
     </div>
 </nav>
 
@@ -167,26 +167,6 @@ mysqli_close($conn);
             <div class="card-text">
                 <span>Reports & Logs</span>
                 <p>Generate distribution reports</p>
-            </div>
-        </div>
-    </a>
-
-    <a href="admin-settings.html" class="actions-card-7">
-        <div class="card-content">
-            <span class="card-icon"><i class="fas fa-cogs"></i></span>
-            <div class="card-text">
-                <span>Admin Settings</span>
-                <p>System configuration</p>
-            </div>
-        </div>
-    </a>
-
-    <a href="signup.php" class="actions-card-8">
-        <div class="card-content">
-            <span class="card-icon"><i class="fas fa-user-plus"></i></span>
-            <div class="card-text">
-                <span>Create Staff Account</span>
-                <p>Create new staff accounts</p>
             </div>
         </div>
     </a>

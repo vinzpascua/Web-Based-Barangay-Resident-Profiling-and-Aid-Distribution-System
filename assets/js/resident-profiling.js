@@ -9,7 +9,6 @@ const ageInput = form.age;
 
 let isEdit = false;
 
-
 // ===== AGE CALCULATION =====
 function calculateAge(birthdate) {
     if (!birthdate) return "";
@@ -64,7 +63,7 @@ document.querySelectorAll(".edit").forEach(btn => {
         form.address.value = btn.dataset.address;
         form.birthdate.value = btn.dataset.birthdate;
 
-        // ✅ ALWAYS recompute age
+        // Always recompute age
         form.age.value = calculateAge(btn.dataset.birthdate);
 
         form.gender.value = btn.dataset.gender;
@@ -80,11 +79,25 @@ document.querySelectorAll(".edit").forEach(btn => {
     });
 });
 
-// Submit form (Add or Update)
-form.addEventListener("submit", function(e) {
-    e.preventDefault();
+// Submit form (Add or Update) with confirmation
+form.addEventListener("submit", function (e) {
+    e.preventDefault(); // prevent default submit
 
-    // ✅ Ensure age is correct before submit
+    // First, confirm with the user
+    const action = isEdit ? "update this resident" : "add this resident";
+    Popup.open({
+        title: "Confirm",
+        message: `Are you sure you want to ${action}?`,
+        type: "warning",
+        onOk: () => {
+            // Proceed with submission after confirmation
+            submitResidentForm();
+        }
+    });
+});
+
+// Function to actually submit the form
+function submitResidentForm() {
     form.age.value = calculateAge(form.birthdate.value);
 
     // CONTACT VALIDATION
@@ -93,7 +106,11 @@ form.addEventListener("submit", function(e) {
     } else if (form.contact.value !== "N/A") {
         const phoneRegex = /^[0-9]{11}$/;
         if (!phoneRegex.test(form.contact.value)) {
-            alert("Contact number must be 11 digits or 'N/A'");
+            Popup.open({
+                title: "Invalid Contact",
+                message: "Contact number must be 11 digits or 'N/A'.",
+                type: "warning"
+            });
             return;
         }
     }
@@ -103,7 +120,7 @@ form.addEventListener("submit", function(e) {
         form.voters_registration_no.value = "Not Registered";
     }
 
-    const formData = new FormData(this);
+    const formData = new FormData(form);
     const url = isEdit ? "update_resident.php" : "add_resident.php";
 
     fetch(url, {
@@ -113,32 +130,58 @@ form.addEventListener("submit", function(e) {
     .then(res => res.text())
     .then(data => {
         if (data === "success") {
-            alert(isEdit ? "Resident updated successfully!" : "Resident added successfully!");
-            location.reload();
+            Popup.open({
+                title: "Success",
+                message: isEdit
+                    ? "Resident updated successfully."
+                    : "Resident added successfully.",
+                type: "success",
+                onOk: () => location.reload()
+            });
         } else {
-            alert("Action failed");
+            Popup.open({
+                title: "Error",
+                message: "Action failed. Please try again.",
+                type: "danger"
+            });
         }
     });
-});
+}
+
 
 // Delete resident
 document.querySelectorAll(".delete").forEach(btn => {
     btn.addEventListener("click", () => {
-        if(!confirm("Are you sure you want to delete this resident?")) return;
 
-        fetch("delete_resident.php", {
-            method: "POST",
-            headers: {"Content-Type":"application/x-www-form-urlencoded"},
-            body: "id=" + btn.dataset.id
-        })
-        .then(res => res.text())
-        .then(data => {
-            if(data === "success") {
-                alert("Resident deleted successfully!");
-                location.reload();
-            } else {
-                alert("Delete failed");
+        Popup.open({
+            title: "Confirm Delete",
+            message: "Are you sure you want to delete this resident? This action cannot be undone. Click OK to proceed.",
+            type: "danger",
+            onOk: () => {
+                fetch("delete_resident.php", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                    body: "id=" + btn.dataset.id
+                })
+                .then(res => res.text())
+                .then(data => {
+                    if (data === "success") {
+                        Popup.open({
+                            title: "Deleted",
+                            message: "Resident deleted successfully.",
+                            type: "success",
+                            onOk: () => location.reload()
+                        });
+                    } else {
+                        Popup.open({
+                            title: "Error",
+                            message: "Delete failed. Please try again.",
+                            type: "danger"
+                        });
+                    }
+                });
             }
         });
+
     });
 });
