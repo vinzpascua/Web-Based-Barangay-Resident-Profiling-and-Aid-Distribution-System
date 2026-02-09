@@ -1078,15 +1078,32 @@ body::before {
 /* SIDEBAR */
 .sidebar {
     position: fixed;
-    top: 80px; /* below navbar */
+    top: 0;
     left: 0;
-    width: 75px;
-    height: calc(100vh - 80px);
-    background: #144876;
+    height: 100vh;
+    width: 75px; /* collapsed width */
+    background-color: #144876;
+    display: flex;
+    flex-direction: column;
     transition: width 0.3s ease;
+    overflow-y: auto; /* scrollable */
     z-index: 1000;
+    padding-top: 100px; /* space for navbar */
 }
 
+/* Scrollbar styling */
+.sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+.sidebar::-webkit-scrollbar-track {
+    background: transparent;
+}
+.sidebar::-webkit-scrollbar-thumb {
+    background-color: rgba(255,255,255,0.2);
+    border-radius: 3px;
+}
+
+/* Expanded width */
 .sidebar.expanded {
     width: 250px;
 }
@@ -1225,14 +1242,13 @@ body::before {
 }
 
 
+/* Logout button at the bottom */
 .sidebar-logout {
-    margin-top: auto;  /* pushes it to the bottom */
+    margin-top: auto;
     padding: 15px;
     display: flex;
     justify-content: center;
 }
-
-/* Style logout button */
 .sidebar .logout {
     width: 100%;
     display: flex;
@@ -1248,12 +1264,58 @@ body::before {
     cursor: pointer;
     transition: background 0.2s ease;
 }
-
 .sidebar .logout:hover {
     background: #f0f0f0;
 }
 
-/* Hide logout completely when sidebar is collapsed */
+/* Hide logout completely when collapsed */
 .sidebar.collapsed .sidebar-logout {
+    display: none;
+}
+
+
+/* Section titles */
+.sidebar-section-title {
+    color: #aaa;
+    font-size: 12px;
+    text-transform: uppercase;
+    padding: 12px 20px 4px;
+    font-weight: 600;
+}
+
+/* Sidebar sections spacing */
+.sidebar-section {
+    margin-bottom: 15px;
+}
+
+/* Sidebar menu items */
+.sidebar-menu {
+    list-style: none;
+    padding: 0;
+}
+.sidebar-menu li {
+    margin: 4px 0;
+}
+.sidebar-menu li a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 20px;
+    font-weight: 500;
+    border-radius: 6px;
+    transition: background 0.2s ease;
+}
+.sidebar-menu li a:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+.sidebar-menu i {
+    font-size: 18px;
+}
+
+/* Hide text when collapsed */
+.sidebar.collapsed .sidebar-menu span,
+.sidebar.collapsed .sidebar-section-title {
     display: none;
 }

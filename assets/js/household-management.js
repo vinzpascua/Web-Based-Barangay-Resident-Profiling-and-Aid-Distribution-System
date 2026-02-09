@@ -68,13 +68,21 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // --- REMOVE MEMBER BY CLICKING INSIDE INPUT (OPTIONAL) ---
+    // --- REMOVE MEMBER BY CLICKING INSIDE INPUT ---
     membersInput.addEventListener("click", () => {
         const current = membersInput.value.split(',').map(m => m.trim()).filter(Boolean);
         if (current.length === 0) return;
 
-        const nameToRemove = prompt(`Current members:\n${current.join(', ')}\nEnter a name to remove:`);
-        if (nameToRemove) removeMemberFromInput(nameToRemove);
+        // Replace prompt with Popup selection
+        Popup.open({
+            title: "Remove Member",
+            message: "Current members:\n" + current.join(', ') + "\nType the exact name to remove in the input below.",
+            type: "warning",
+            onOk: () => {
+                const nameToRemove = prompt("Enter the exact name to remove:"); // optional temporary input
+                if (nameToRemove) removeMemberFromInput(nameToRemove);
+            }
+        });
     });
 
     // --- HEAD INPUT PICKER ---
@@ -140,12 +148,25 @@ document.addEventListener("DOMContentLoaded", () => {
                     } else location.reload();
 
                     closeModal();
-                    const toast = document.getElementById('members-toast');
-                    const toastText = document.getElementById('members-text');
-                    toastText.innerText = "Household saved successfully!!";
-                    toast.classList.add('show');
-                } else alert('Failed to save household: ' + data);
-            }).catch(err => alert('Server error: ' + err));
+                    Popup.open({
+                        title: "Success",
+                        message: "Household saved successfully!",
+                        type: "success"
+                    });
+                } else {
+                    Popup.open({
+                        title: "Error",
+                        message: "Failed to save household: " + data,
+                        type: "danger"
+                    });
+                }
+            }).catch(err => {
+                Popup.open({
+                    title: "Server Error",
+                    message: err,
+                    type: "danger"
+                });
+            });
     });
 
     // --- EDIT & DELETE ---
@@ -158,6 +179,7 @@ document.addEventListener("DOMContentLoaded", () => {
             form.querySelector("input[name='head_of_family']").value = btn.dataset.head || "";
             form.querySelector("input[name='address']").value = btn.dataset.address || "";
             form.querySelector("input[name='household_members']").value = btn.dataset.members || "";
+            form.querySelector("input[name='rfid']").value = btn.dataset.rfid || "";
             saveBtn.innerText = "Updated Household";
             modalTitle.innerText = "Edit Household";
             modalIcon.className = "fa-solid fa-pen-to-square";
@@ -169,18 +191,32 @@ document.addEventListener("DOMContentLoaded", () => {
         if (e.target.closest('.delete')) {
             const btn = e.target.closest('.delete');
             const id = btn.dataset.id;
-            if (confirm("Are you sure you want to delete this household?")) {
-                fetch('delete_household.php', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: `id=${encodeURIComponent(id)}`
-                })
-                    .then(res => res.text())
-                    .then(data => {
-                        if (data.trim() === 'success') btn.closest('tr')?.remove();
-                        else alert("Failed to delete: " + data);
-                    }).catch(err => alert("Server error: " + err));
-            }
+
+            Popup.open({
+                title: "Confirm Delete",
+                message: "Are you sure you want to delete this household? This action cannot be undone.",
+                type: "danger",
+                onOk: () => {
+                    fetch('delete_household.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                        body: `id=${encodeURIComponent(id)}`
+                    })
+                        .then(res => res.text())
+                        .then(data => {
+                            if (data.trim() === 'success') btn.closest('tr')?.remove();
+                            else Popup.open({
+                                title: "Error",
+                                message: "Failed to delete: " + data,
+                                type: "danger"
+                            });
+                        }).catch(err => Popup.open({
+                            title: "Server Error",
+                            message: err,
+                            type: "danger"
+                        }));
+                }
+            });
         }
     });
 

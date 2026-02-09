@@ -17,22 +17,25 @@ if (isset($_SESSION['role'])) {
     <meta charset="UTF-8">
     <title>Resident Profiling</title>
     <link rel="stylesheet" href="assets/css/resident-profiling.css">
+    <link rel="stylesheet" href="includes/sidebars.css">
     <link rel="stylesheet" href="fontawesome/fontawesome/css/all.css">
 </head>
 <body>
 
-
-<?php include 'includes/sidebar.php'; ?>
-<link rel="stylesheet" href="includes/sidebar.css">
-<script src="includes/sidebar.js"></script>
-
 <!-- NAVBAR -->
 <nav class="rp-navbar">
+    <!-- Sidebar Toggle -->
+    <button class="toggle-sidebar" id="toggleBtn">
+        <i class="fa-solid fa-bars" id="toggleIcon"></i>
+    </button>
+
+    <!-- Back Button -->
     <a href="<?php echo $backLink; ?>" class="back-btn">
         <i class="fa-solid fa-arrow-left"></i>
     </a>
 
-    <div class="rp-navbar-content"><!-- WRAP CONTENT TO HIDE -->
+    <!-- Navbar Content -->
+    <div class="rp-navbar-content">
         <img src="assets/images/logos.png" alt="Barangay Logo">
         <div class="nav-text">
             <span class="page-title">Barangay Abangan Norte</span>
@@ -54,115 +57,196 @@ if (isset($_SESSION['role'])) {
             </div>
             
             <div class="rp-actions">
-                <form method="GET" style="display:inline;">
-                    <input type="text" name="search" placeholder="Search residents..." value="<?php echo $_GET['search'] ?? ''; ?>">
-                </form>
+                    <input 
+                        type="text" 
+                        name="search" 
+                        id="searchInput"
+                        placeholder="Search residents..."
+                        value="<?php echo $_GET['search'] ?? ''; ?>">
                 <button class="add-resident"><i class="fa-solid fa-plus"></i> Add Resident</button>
             </div>
         </div>
 
         <!-- LOWER PART: TABLE -->
-<div class="rp-table">
-    <table>
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Address</th>
-                <th>Birthdate</th>
-                <th>Gender</th>
-                <th>Civil Status</th>
-                <th>Occupation</th>
-                <th>Voters Registration Number</th>
-                <th>Contact</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php
-            $conn = mysqli_connect("localhost", "root", "Password", "barangay_db");
-            $search = $_GET['search'] ?? '';
+        <div class="rp-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th>Birthdate</th>
+                        <th>Gender</th>
+                        <th>Civil Status</th>
+                        <th>Occupation</th>
+                        <th>Voters Registration Number</th>
+                        <th>Contact</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="residentTableBody">
+                <?php
+                $conn = mysqli_connect("localhost", "root", "Password", "barangay_db");
+                $search = $_GET['search'] ?? '';
 
-            if ($search !== '') {
-                $search = mysqli_real_escape_string($conn, $search);
-                $sql = "
-                    SELECT * FROM registered_resi
-                    WHERE
-                        first_name LIKE '%$search%' OR
-                        middle_name LIKE '%$search%' OR
-                        last_name LIKE '%$search%' OR
-                        address LIKE '%$search%' OR
-                        birthdate LIKE '%$search%' OR
-                        gender LIKE '%$search%' OR
-                        civil_status LIKE '%$search%' OR
-                        occupation LIKE '%$search%' OR
-                        voters_registration_no LIKE '%$search%' OR
-                        contact LIKE '%$search%'
-                    ORDER BY id DESC
-                ";
-            } else {
-                $sql = "SELECT * FROM registered_resi ORDER BY id DESC";
-            }
+                // PAGINATION VARIABLES
+                $limit = 8; // records per page
+                $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+                $offset = ($page - 1) * $limit;
 
-            $result = mysqli_query($conn, $sql);
+                // COUNT TOTAL RECORDS
+                if ($search !== '') {
+                    $search_safe = mysqli_real_escape_string($conn, $search);
+                    $count_sql = "
+                        SELECT COUNT(*) as total FROM registered_resi
+                        WHERE first_name LIKE '%$search_safe%'
+                        OR middle_name LIKE '%$search_safe%'
+                        OR last_name LIKE '%$search_safe%'
+                        OR address LIKE '%$search_safe%'
+                        OR birthdate LIKE '%$search_safe%'
+                        OR gender LIKE '%$search_safe%'
+                        OR civil_status LIKE '%$search_safe%'
+                        OR occupation LIKE '%$search_safe%'
+                        OR voters_registration_no LIKE '%$search_safe%'
+                        OR contact LIKE '%$search_safe%'
+                    ";
+                } else {
+                    $count_sql = "SELECT COUNT(*) as total FROM registered_resi";
+                }
+                $count_result = mysqli_query($conn, $count_sql);
+                $total_records = mysqli_fetch_assoc($count_result)['total'];
+                $total_pages = ceil($total_records / $limit);
 
-            while ($row = mysqli_fetch_assoc($result)) {
-                // Voter registration display
-                $voterDisplay = ($row['voters_registration_no'] === "Not Registered")
-                    ? "<span class='not-registered'>Not Registered</span>"
-                    : htmlspecialchars($row['voters_registration_no']);
+                // MODIFY ORIGINAL SQL TO INCLUDE LIMIT
+                if ($search !== '') {
+                    $sql = "
+                        SELECT * FROM registered_resi
+                        WHERE first_name LIKE '%$search_safe%'
+                        OR middle_name LIKE '%$search_safe%'
+                        OR last_name LIKE '%$search_safe%'
+                        OR address LIKE '%$search_safe%'
+                        OR birthdate LIKE '%$search_safe%'
+                        OR gender LIKE '%$search_safe%'
+                        OR civil_status LIKE '%$search_safe%'
+                        OR occupation LIKE '%$search_safe%'
+                        OR voters_registration_no LIKE '%$search_safe%'
+                        OR contact LIKE '%$search_safe%'
+                        ORDER BY id DESC
+                        LIMIT $limit OFFSET $offset
+                    ";
+                } else {
+                    $sql = "SELECT * FROM registered_resi ORDER BY id DESC LIMIT $limit OFFSET $offset";
+                }
 
-                // Contact display
-                $contactDisplay = empty($row['contact']) || $row['contact'] === "N/A"
-                    ? "<span class='not-registered'>N/A</span>"
-                    : htmlspecialchars($row['contact']);
+                $result = mysqli_query($conn, $sql);
 
-                // Custom tooltip for age
-                $birthdate = htmlspecialchars($row['birthdate']);
-                $age = htmlspecialchars($row['age']);
-                $birthdateTooltip = "<span class='birthdate-tooltip' data-age='Age: $age'>$birthdate</span>";
+                while ($row = mysqli_fetch_assoc($result)) {
+                    // Voter registration display
+                    $voterDisplay = ($row['voters_registration_no'] === "Not Registered")
+                        ? "<span class='not-registered'>Not Registered</span>"
+                        : htmlspecialchars($row['voters_registration_no']);
 
-                echo "<tr>
-                    <td>{$row['first_name']} {$row['middle_name']} {$row['last_name']}</td>
-                    <td>{$row['address']}</td>
-                    <td>$birthdateTooltip</td>
-                    <td>{$row['gender']}</td>
-                    <td>{$row['civil_status']}</td>
-                    <td>{$row['occupation']}</td>
-                    <td>$voterDisplay</td>
-                    <td>$contactDisplay</td>
-                    <td>
-                        <button class='edit'
-                            data-id='{$row['id']}'
-                            data-first='{$row['first_name']}'
-                            data-middle='{$row['middle_name']}'
-                            data-last='{$row['last_name']}'
-                            data-address='{$row['address']}'
-                            data-birthdate='{$row['birthdate']}'
-                            data-age='{$row['age']}'
-                            data-gender='{$row['gender']}'
-                            data-civil='{$row['civil_status']}'
-                            data-occupation='{$row['occupation']}'
-                            data-voters='{$row['voters_registration_no']}'
-                            data-contact='{$row['contact']}'>
-                            <i class='fa-solid fa-pen-to-square'></i>
-                        </button>
-                        <button class='delete' data-id='{$row['id']}'>
-                            <i class='fa-solid fa-trash'></i>
-                        </button>
+                    // Contact display
+                    $contactDisplay = empty($row['contact']) || $row['contact'] === "N/A"
+                        ? "<span class='not-registered'>N/A</span>"
+                        : htmlspecialchars($row['contact']);
+
+                    // Custom tooltip for age
+                    $birthdate = htmlspecialchars($row['birthdate']);
+                    $age = htmlspecialchars($row['age']);
+                    $birthdateTooltip = "<span class='birthdate-tooltip' data-age='Age: $age'>$birthdate</span>";
+
+                    echo "<tr>
+                        <td>{$row['first_name']} {$row['middle_name']} {$row['last_name']}</td>
+                        <td>{$row['address']}</td>
+                        <td>$birthdateTooltip</td>
+                        <td>{$row['gender']}</td>
+                        <td>{$row['civil_status']}</td>
+                        <td>{$row['occupation']}</td>
+                        <td>$voterDisplay</td>
+                        <td>$contactDisplay</td>
+                        <td>
+                            <button class='edit'
+                                data-id='{$row['id']}'
+                                data-first='{$row['first_name']}'
+                                data-middle='{$row['middle_name']}'
+                                data-last='{$row['last_name']}'
+                                data-address='{$row['address']}'
+                                data-birthdate='{$row['birthdate']}'
+                                data-age='{$row['age']}'
+                                data-gender='{$row['gender']}'
+                                data-civil='{$row['civil_status']}'
+                                data-occupation='{$row['occupation']}'
+                                data-voters='{$row['voters_registration_no']}'
+                                data-contact='{$row['contact']}'>
+                                <i class='fa-solid fa-pen-to-square'></i>
+                            </button>
+                            <button class='delete' data-id='{$row['id']}'>
+                                <i class='fa-solid fa-trash'></i>
+                            </button>
+                        </td>
+                    </tr>";
+                }
+
+                mysqli_close($conn);
+                ?>
+
+                <tr id="noResultRow" style="display:none;">
+                    <td colspan="9" style="text-align:center; padding:20px; color:#777;">
+                        No matching residents found
                     </td>
-                </tr>";
-            }
+                </tr>
 
-            mysqli_close($conn);
-            ?>
-        </tbody>
-    </table>
+                </tbody>
+            </table>
+        </div>
+
+       <!-- PAGINATION -->
+<?php if ($total_records >= 8): ?>
+<div class="pagination">
+
+    <?php
+        $max_pages_to_show = 5;
+
+        // Sliding window
+        $start = max(1, $page - 2);
+        $end = min($total_pages, $start + $max_pages_to_show - 1);
+
+        if ($end - $start < $max_pages_to_show - 1) {
+            $start = max(1, $end - $max_pages_to_show + 1);
+        }
+    ?>
+
+    <!-- PREVIOUS -->
+    <?php if ($page > 1): ?>
+        <a href="?search=<?= $search ?>&page=<?= $page - 1 ?>">&lt;</a>
+    <?php else: ?>
+        <span class="disabled">&lt;</span>
+    <?php endif; ?>
+
+    <!-- PAGE NUMBERS -->
+    <?php for ($i = $start; $i <= $end; $i++): ?>
+        <a href="?search=<?= $search ?>&page=<?= $i ?>" class="<?= $i == $page ? 'active' : '' ?>">
+            <?= $i ?>
+        </a>
+    <?php endfor; ?>
+
+    <!-- NEXT -->
+    <?php if ($page < $total_pages): ?>
+        <a href="?search=<?= $search ?>&page=<?= $page + 1 ?>">&gt;</a>
+    <?php else: ?>
+        <span class="disabled">&gt;</span>
+    <?php endif; ?>
+
 </div>
+<?php endif; ?>
+
+
 
 
     </div>
 
 </main>
+
 
 <div class="modal-overlay" id="modalOverlay"></div>
 
@@ -273,7 +357,8 @@ fetch("assets/popup/popup.html")
 <script src="assets/popup/popup.js" defer></script>
 
 
-<script src="assets/js/resident-profiling.js"></script>
+<script src="assets/js/resident-profilingss.js"></script>
+<script src="includes/sidebarss.js" defer></script><?php include 'includes/sidebar.php'; ?>
 
 </body>
 </html>

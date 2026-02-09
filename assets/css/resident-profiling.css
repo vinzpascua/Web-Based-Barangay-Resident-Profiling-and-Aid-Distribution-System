@@ -8,7 +8,7 @@
 }
 
 body {
-    background: #144876;
+    background: #144876; /* page background */
 }
 
 /* NAVBAR */
@@ -19,9 +19,7 @@ body {
     padding: 12px 20px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     gap: 15px;
-
     border-bottom: 5px solid #F8E431;
-
 }
 
 .rp-navbar img {
@@ -37,35 +35,30 @@ body {
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
 
-.rp-navbar a {
-    margin-left: 55px;
-}
-
 .rp-navbar-content.hidden {
     opacity: 0;
     transform: translateY(-10px);
-    pointer-events: none; /* prevent interaction while hidden */
+    pointer-events: none;
 }
 
-/* Shift main content when sidebar expands */
 .rp-dashboard {
     transition: margin-left 0.3s ease;
-    margin-left: 75px; /* sidebar collapsed width */
+    margin-left: 75px;
+    padding: 30px;
 }
 
 .rp-dashboard.expanded {
-    margin-left: 250px; /* sidebar expanded width */
+    margin-left: 250px;
 }
 
 .nav-text {
     display: flex;
     flex-direction: column;
     line-height: 1.2;
-    
 }
 
 .page-title {
-    color: #fff;;
+    color: #fff;
     font-size: 22px;
     font-weight: bold;
 }
@@ -87,31 +80,21 @@ body {
     text-decoration: none;
 }
 
-/* MAIN CONTENT */
-.rp-dashboard {
-    padding: 30px;
-}
-
 /* CARD */
 .rp-card {
     background: #fff;
-    padding: 25px;
+    padding: 25px 25px 40px 25px;
     border-radius: 12px;
     box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-    padding-bottom: 40px;
 }
 
-/* UPPER HEADER */
+/* HEADER */
 .rp-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 20px;
-}
-
-.header-text {
-    display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
 }
 
 .header-text h2 {
@@ -153,6 +136,7 @@ body {
     display: flex;
     align-items: center;
     gap: 5px;
+    font-weight: 600;
 }
 
 .add-resident:hover {
@@ -160,23 +144,26 @@ body {
 }
 
 /* TABLE */
+.rp-table {
+    overflow-x: auto;
+}
+
 .rp-table table {
     width: 100%;
     border-collapse: collapse;
+    min-width: 900px;
 }
 
 .rp-table th,
 .rp-table td {
     padding: 12px 10px;
     border-bottom: 1px solid #ddd;
-}
-
-.rp-table td {
     text-align: center;
 }
 
 .rp-table th {
     font-weight: 600;
+    background: #f5f5f5;
 }
 
 .rp-table td button {
@@ -185,18 +172,19 @@ body {
     border-radius: 6px;
     cursor: pointer;
     color: #fff;
+    font-size: 14px;
 }
 
 .edit {
     background: transparent;
 }
 
-.edit i{
+.edit i {
     color: #000;
     font-size: 16px;
 }
 
-.delete i{
+.delete i {
     color: #9c2828;
     font-size: 16px;
 }
@@ -205,6 +193,48 @@ body {
     background: transparent;
 }
 
+.rp-table tbody tr:hover {
+    background: #f1f5f9;
+}
+
+.not-registered {
+    background-color: #C92326;
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+}
+
+/* BIRTHDATE TOOLTIP */
+.birthdate-tooltip {
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+}
+
+.birthdate-tooltip::after {
+    content: attr(data-age);
+    position: absolute;
+    bottom: 125%; /* show above text */
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #000;
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 10;
+}
+
+.birthdate-tooltip:hover::after {
+    opacity: 1;
+}
+
+/* MODAL */
 .modal-overlay {
     position: fixed;
     inset: 0;
@@ -215,7 +245,6 @@ body {
     z-index: 999;
 }
 
-/* SHOW OVERLAY */
 .modal-overlay.show {
     opacity: 1;
     pointer-events: auto;
@@ -225,16 +254,15 @@ body {
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%); /* ❌ removed scale */
+    transform: translate(-50%, -50%);
     width: 800px;
     background: #fff;
     border-radius: 12px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
     z-index: 1000;
     padding: 25px;
-
     opacity: 0;
-    visibility: hidden; /* 👈 important */
+    visibility: hidden;
     transition: opacity 0.3s ease;
 }
 
@@ -243,19 +271,15 @@ body {
     visibility: visible;
 }
 
-/* IMPORTANT: allow date picker to escape modal */
 .resident-modal,
 .resident-modal-content {
     overflow: visible;
 }
 
-/* Raise date picker above overlay */
 input[type="date"] {
     position: relative;
     z-index: 1100;
 }
-
-/* ---------- UNCHANGED ---------- */
 
 .modal-title {
     margin-bottom: 20px;
@@ -295,21 +319,17 @@ input[type="date"] {
     background: #222;
 }
 
-/* FORM GRID */
 .resident-form-grid {
     display: flex;
     flex-direction: column;
     gap: 5px;
 }
 
-
-/* ROW BASE */
 .form-row {
     display: grid;
     gap: 12px;
 }
 
-/* COLUMN COUNTS */
 .form-row.one {
     grid-template-columns: 1fr;
 }
@@ -318,20 +338,17 @@ input[type="date"] {
     grid-template-columns: repeat(3, 1fr);
 }
 
-/* FIELD STACK */
 .form-field {
     display: flex;
     flex-direction: column;
 }
 
-/* LABEL ON TOP */
 .form-field label {
     font-weight: 600;
     font-size: 14px;
     margin-bottom: 5px;
 }
 
-/* INPUT STYLE (unchanged look) */
 .form-field input,
 .form-field select {
     width: 100%;
@@ -339,12 +356,6 @@ input[type="date"] {
     border: 1px solid #ccc;
     border-radius: 6px;
     font-size: 14px;
-}
-
-/* KEEP INPUTS CONSISTENT */
-.form-row input,
-.form-row select {
-    width: 100%;
 }
 
 .close-btn {
@@ -355,45 +366,40 @@ input[type="date"] {
     cursor: pointer;
 }
 
-.not-registered{
-    background-color: #C92326;
-    color: #fff;
-    padding-left: 8px;
-    padding-right: 8px;
-    padding-top: 4px;
-    padding-bottom: 4px;
+/* PAGINATION */
+.pagination {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.pagination .disabled {
+    color: #aaa;
+    border: 1px solid #ddd;
+    padding: 6px 10px;
     border-radius: 6px;
-}
-
-.rp-table tbody tr:hover {
-    background: #f1f5f9;
-}
-
-
-.birthdate-tooltip {
-    position: relative;
-    cursor: pointer;
-    display: inline-block;
-}
-
-.birthdate-tooltip::after {
-    content: attr(data-age);
-    position: absolute;
-    bottom: 125%; /* show above the text */
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #000;
-    color: #fff;
-    padding: 4px 8px;
-    border-radius: 6px;
-    font-size: 12px;
-    white-space: nowrap;
-    opacity: 0;
     pointer-events: none;
-    transition: opacity 0.3s ease;
-    z-index: 10;
 }
 
-.birthdate-tooltip:hover::after {
-    opacity: 1;
+.pagination a {
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    color: #333;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.pagination a:hover {
+    background: #000;
+    color: #fff;
+    border-color: #000;
+}
+
+.pagination a.active {
+    background: #000;
+    color: #fff;
+    border-color: #000;
 }

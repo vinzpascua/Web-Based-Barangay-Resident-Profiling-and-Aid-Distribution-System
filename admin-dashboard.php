@@ -38,13 +38,41 @@ mysqli_close($conn);
 <!-- SIDEBAR -->
 <div class="sidebar collapsed" id="sidebar">
 
-    <!-- MENU ITEMS -->
-    <ul class="sidebar-menu">
-        <li><a href="resident-profiling.php"><i class="fa-solid fa-users"></i> <span>Residents</span></a></li>
-        <li><a href="household-management.php"><i class="fa-solid fa-house"></i> <span>Households</span></a></li>
-        <li><a href="aid-program-setup.php"><i class="fa-solid fa-hand-holding-heart"></i> <span>Aid Programs</span></a></li>
-        <li><a href="reports-logs.html"><i class="fa-solid fa-file-lines"></i> <span>Reports</span></a></li>
-    </ul>
+    <!-- MANAGEMENT SECTION -->
+    <div class="sidebar-section">
+        <p class="sidebar-section-title">Management</p>
+        <ul class="sidebar-menu">
+            <li><a href="resident-profiling.php"><i class="fa-solid fa-users"></i> <span>Residents</span></a></li>
+            <li><a href="household-management.php"><i class="fa-solid fa-house"></i> <span>Households</span></a></li>
+            <li><a href="aid-program-setup.php"><i class="fa-solid fa-hand-holding-heart"></i> <span>Aid Programs</span></a></li>
+        </ul>
+    </div>
+
+    <!-- DISTRIBUTION SECTION -->
+    <div class="sidebar-section">
+        <p class="sidebar-section-title">Distribution</p>
+        <ul class="sidebar-menu">
+            <li><a href="rfid-tags-insurance.php"><i class="fa-solid fa-id-card"></i> <span>RFID Issuance</span></a></li>
+            <li><a href="distribution-page.html"><i class="fa-solid fa-qrcode"></i> <span>Distribution Page</span></a></li>
+        </ul>
+    </div>
+
+    <!-- REPORT SECTION -->
+    <div class="sidebar-section">
+        <p class="sidebar-section-title">Report</p>
+        <ul class="sidebar-menu">
+            <li><a href="reports-logs.html"><i class="fa-solid fa-file-lines"></i> <span>Reports & Logs</span></a></li>
+        </ul>
+    </div>
+
+    <!-- SETTINGS SECTION -->
+    <div class="sidebar-section">
+        <p class="sidebar-section-title">Settings</p>
+        <ul class="sidebar-menu">
+            <li><a href="admin-settings.html"><i class="fa-solid fa-cogs"></i> <span>Admin Settings</span></a></li>
+            <li><a href="signup.php"><i class="fa-solid fa-user-plus"></i> <span>Create Staff Account</span></a></li>
+        </ul>
+    </div>
 
     <!-- LOGOUT AT THE BOTTOM -->
     <div class="sidebar-logout">

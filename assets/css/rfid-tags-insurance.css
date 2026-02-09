@@ -19,7 +19,6 @@ body {
     padding: 12px 20px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     gap: 15px;
-
     border-bottom: 5px solid #F8E431;
 }
 
@@ -27,6 +26,19 @@ body {
     width: 55px;
     height: 55px;
     border-radius: 50%;
+}
+
+.rp-navbar-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.rp-navbar-content.hidden {
+    opacity: 0;
+    transform: translateY(-10px);
+    pointer-events: none;
 }
 
 .nav-text {
@@ -57,12 +69,6 @@ body {
     display: flex;
     align-items: center;
     text-decoration: none;
-}
-
-
-/* MAIN CONTENT */
-.rp-navbar a {
-    margin-left: 55px;
 }
 
 /* Shift main content when sidebar expands */

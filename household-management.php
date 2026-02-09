@@ -17,26 +17,31 @@ if (isset($_SESSION['role'])) {
     <meta charset="UTF-8">
     <title>Household Management</title>
 
-    <link rel="stylesheet" href="assets/css/households-management.css">
+    <link rel="stylesheet" href="assets/css/household-management.css">
+    <link rel="stylesheet" href="includes/sidebars.css">
     <link rel="stylesheet" href="fontawesome/fontawesome/css/all.css">
 </head>
 <body>
 
-<?php include 'includes/sidebar.php'; ?>
-<link rel="stylesheet" href="includes/sidebar.css">
-<script src="includes/sidebar.js"></script>
-
 <!-- NAVBAR -->
 <nav class="rp-navbar">
+    <!-- Sidebar Toggle -->
+    <button class="toggle-sidebar" id="toggleBtn">
+        <i class="fa-solid fa-bars" id="toggleIcon"></i>
+    </button>
+
+    <!-- Back Button -->
     <a href="<?php echo $backLink; ?>" class="back-btn">
         <i class="fa-solid fa-arrow-left"></i>
     </a>
 
-    <img src="assets/images/logos.png" alt="Barangay Logo">
-
-    <div class="nav-text">
-        <span class="page-title">Barangay Abangan Norte</span>
-        <p>Household Data Management System</p>
+    <!-- Navbar Content -->
+    <div class="rp-navbar-content">
+        <img src="assets/images/logos.png" alt="Barangay Logo">
+        <div class="nav-text">
+            <span class="page-title">Barangay Abangan Norte</span>
+            <p>Household Data Management System</p>
+        </div>
     </div>
 </nav>
 
@@ -172,7 +177,7 @@ if (isset($_SESSION['role'])) {
             <div class="form-row two-col">
                 <div class="form-group">
                     <label>Household Number</label>
-                    <input type="text" name="household_number" readonly>
+                    <input type="text" name="household_number">
                 </div>
 
                 <div class="form-group head-picker">
@@ -311,11 +316,22 @@ if (isset($_SESSION['role'])) {
 </div>
 
 
-<div id="members-toast" class="toast">
-    <p id="members-text"></p>
-    <button id="close-toast">&times;</button>
-</div>
+<!-- Custom Popup -->
+<link rel="stylesheet" href="assets/popup/popup.css">
+
+<div id="popup-container"></div>
+
+<script>
+fetch("assets/popup/popup.html")
+    .then(res => res.text())
+    .then(html => {
+        document.getElementById("popup-container").innerHTML = html;
+    });
+</script>
+
+<script src="assets/popup/popup.js" defer></script>
 
 <script src="assets/js/household-management.js"></script>
+<script src="includes/sidebarss.js" defer></script><?php include 'includes/sidebar.php'; ?>
 </body>
 </html>

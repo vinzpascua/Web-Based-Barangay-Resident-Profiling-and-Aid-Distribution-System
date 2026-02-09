@@ -17,24 +17,31 @@ if (isset($_SESSION['role'])) {
 <head>
     <meta charset="UTF-8">
     <title>Aid Program Setup</title>
-    <link rel="stylesheet" href="assets/css/aid-program-setup.css">
+    <link rel="stylesheet" href="assets/css/aid-programs-setup.css">
+    <link rel="stylesheet" href="includes/sidebars.css">
     <link rel="stylesheet" href="fontawesome/fontawesome/css/all.css">
 </head>
 <body>
 
-<?php include 'includes/sidebar.php'; ?>
-<link rel="stylesheet" href="includes/sidebar.css">
-<script src="includes/sidebar.js"></script>
-
 <!-- NAVBAR -->
 <nav class="rp-navbar">
+    <!-- Sidebar Toggle -->
+    <button class="toggle-sidebar" id="toggleBtn">
+        <i class="fa-solid fa-bars" id="toggleIcon"></i>
+    </button>
+
+    <!-- Back Button -->
     <a href="<?php echo $backLink; ?>" class="back-btn">
         <i class="fa-solid fa-arrow-left"></i>
     </a>
-    <img src="assets/images/logos.png" alt="Barangay Logo">
-    <div class="nav-text">
-        <span class="page-title">Barangay Abangan Norte</span>
-        <p>Household Data Management System</p>
+
+    <!-- Navbar Content -->
+    <div class="rp-navbar-content">
+        <img src="assets/images/logos.png" alt="Barangay Logo">
+        <div class="nav-text">
+            <span class="page-title">Barangay Abangan Norte</span>
+            <p>Household Data Management System</p>
+        </div>
     </div>
 </nav>
 
@@ -171,7 +178,22 @@ if (isset($_SESSION['role'])) {
     </div>
 </div>
 
+<!-- Custom Popup -->
+<link rel="stylesheet" href="assets/popup/popup.css">
 
-<script src="assets/js/aid-program-setup.js"></script>
+<div id="popup-container"></div>
+
+<script>
+fetch("assets/popup/popup.html")
+    .then(res => res.text())
+    .then(html => {
+        document.getElementById("popup-container").innerHTML = html;
+    });
+</script>
+
+<script src="assets/popup/popup.js" defer></script>
+
+<script src="assets/js/aid-programs-setup.js"></script>
+<script src="includes/sidebarss.js" defer></script><?php include 'includes/sidebar.php'; ?>
 </body>
 </html>
