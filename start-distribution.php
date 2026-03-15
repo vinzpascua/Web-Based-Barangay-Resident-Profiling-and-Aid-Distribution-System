@@ -94,10 +94,10 @@ if ($program_id > 0) {
 
             <!-- SCAN CARD -->
             <div class="scan-card">
-    <div class="scan-icon-wrapper" id="scan_trigger">
-        <i class="fa-solid fa-id-card scan-icon"></i>
-    </div>
-    <h3 id="scan_status">Waiting for Scan</h3>
+    <div class="scan-icon-wrapper pulse" id="scan_trigger">
+    <i class="fa-solid fa-id-card scan-icon"></i>
+</div>
+    <h3 id="scan_status">Click to Start Distribution</h3>
      <!-- temp textbox to put the scanned rfid uid -->
     <input type="hidden" id="hidden_rfid_input" name="scanned_rfid">
 </div>
@@ -185,6 +185,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const confirmBtn = document.getElementById("confirmDistBtn");
     let pendingRFID = "";
     const currentProgramId = <?php echo $program_id; ?>;
+    const scanStatus = document.getElementById("scan_status");
 
     // load immed the recent transactions
     function loadRecentTransactions() {
@@ -219,23 +220,24 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     if (scanBtn) {
-        scanBtn.addEventListener("click", () => {
+    scanBtn.addEventListener("click", () => {
 
+        // if already connected do nothing
+        if (typeof rfidPort !== "undefined" && rfidPort) {
+            console.log("RFID already connected");
+            return;
+        }
 
-            if (typeof rfidPort !== "undefined" && rfidPort) 
-            {
-                console.log("already connected blocked the click")
-                return;
-            }
-            
-            
-            console.log("Distributing to household rfid: ");
-            connectRFIDScanner(assignRFIDToInput, scanBtn);
+        console.log("Connecting RFID scanner...");
 
-        });
+        // connect scanner
+        connectRFIDScanner(assignRFIDToInput, scanBtn);
 
-        
-    }
+        // update UI
+        scanStatus.textContent = "Waiting for Scan...";
+        scanBtn.classList.remove("pulse");
+    });
+}
 
     // uid is console logged
     function assignRFIDToInput(scannedID) {
