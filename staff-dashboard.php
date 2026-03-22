@@ -54,7 +54,7 @@ mysqli_close($conn);
         <p class="sidebar-section-title">Distribution</p>
         <ul class="sidebar-menu">
             <li><a href="rfid-tags-insurance.php"><i class="fa-solid fa-id-card"></i> <span>RFID Issuance</span></a></li>
-            <li><a href="distribution-page.html"><i class="fa-solid fa-qrcode"></i> <span>Distribution Page</span></a></li>
+            <li><a href="distribution-page.php"><i class="fa-solid fa-qrcode"></i> <span>Distribution Page</span></a></li>
         </ul>
     </div>
 
@@ -171,7 +171,7 @@ mysqli_close($conn);
     </a>
 
 
-    <a href="distribution-page.html" class="actions-card-5">
+    <a href="distribution-page.php" class="actions-card-5">
         <div class="card-content">
             <span class="card-icon"><i class="fas fa-qrcode"></i></span>
             <div class="card-text">
@@ -181,7 +181,7 @@ mysqli_close($conn);
         </div>
     </a>
 
-    <a href="reports-logs.html" class="actions-card-6">
+    <a href="reports-logs.php" class="actions-card-6">
         <div class="card-content">
             <span class="card-icon"><i class="fas fa-file-alt"></i></span>
             <div class="card-text">

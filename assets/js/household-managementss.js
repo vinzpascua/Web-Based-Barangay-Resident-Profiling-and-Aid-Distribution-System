@@ -306,24 +306,47 @@ if (searchInput) {
        FORM SUBMISSION
     ========================= */
     if (form) {
-        form.addEventListener('submit', function (e) {
-            e.preventDefault();
-            
-            fetch('add_household.php', {
-                method: 'POST',
-                body: new FormData(form)
-            })
-            .then(res => res.text())
-            .then(data => {
-                if (data.trim() === 'success') {
-                    location.reload();
-                } else {
-                    alert("Failed to save: " + data);
-                }
-            })
-            .catch(err => alert("Error: " + err));
+    form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const isUpdate = householdId && householdId.value;
+
+        Popup.open({
+            title: isUpdate ? "Update Household" : "Add Household",
+            message: isUpdate
+                ? "Are you sure you want to update this household?"
+                : "Are you sure you want to add this household?",
+            type: "warning",
+            onOk: () => {
+
+                fetch('add_household.php', {
+                    method: 'POST',
+                    body: new FormData(form)
+                })
+                .then(res => res.text())
+                .then(data => {
+                    if (data.trim() === 'success') {
+                        location.reload();
+                    } else {
+                        Popup.open({
+                            title: "Save Failed",
+                            message: "Failed to save: " + data,
+                            type: "danger"
+                        });
+                    }
+                })
+                .catch(err => {
+                    Popup.open({
+                        title: "Error",
+                        message: "Error: " + err,
+                        type: "danger"
+                    });
+                });
+
+            }
         });
-    }
+    });
+}
 
     /* =========================
        RFID SCANNER
@@ -386,26 +409,43 @@ if (searchInput) {
 
         const deleteBtn = e.target.closest(".delete");
         if (deleteBtn) {
-            e.preventDefault();
-            const id = deleteBtn.dataset.id;
-            
-            if (confirm("Are you sure you want to delete this household?")) {
-                fetch('delete_household.php', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: `id=${encodeURIComponent(id)}`
-                })
-                .then(res => res.text())
-                .then(data => {
-                    if (data.trim() === 'success') {
-                        deleteBtn.closest('tr').remove();
-                    } else {
-                        alert("Failed to delete: " + data);
-                    }
-                })
-                .catch(err => alert("Server error: " + err));
-            }
+    e.preventDefault();
+    const id = deleteBtn.dataset.id;
+
+    Popup.open({
+        title: "Delete Household",
+        message: "Are you sure you want to delete this household?",
+        type: "warning",
+        onOk: () => {
+
+            fetch('delete_household.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                body: `id=${encodeURIComponent(id)}`
+            })
+            .then(res => res.text())
+            .then(data => {
+                if (data.trim() === 'success') {
+                    deleteBtn.closest('tr').remove();
+                } else {
+                    Popup.open({
+                        title: "Delete Failed",
+                        message: "Failed to delete: " + data,
+                        type: "danger"
+                    });
+                }
+            })
+            .catch(err => {
+                Popup.open({
+                    title: "Server Error",
+                    message: "Server error: " + err,
+                    type: "danger"
+                });
+            });
+
         }
+    });
+}
 
         const pickerBtn = e.target.closest(".picker-action");
         if (pickerBtn) {

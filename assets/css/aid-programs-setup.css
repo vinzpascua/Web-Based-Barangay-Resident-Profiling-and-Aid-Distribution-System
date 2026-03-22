@@ -93,8 +93,8 @@ body {
 .rp-header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
+    align-items: flex-start;
+    margin-top: 10px;
 }
 
 .header-text {
@@ -288,4 +288,55 @@ body {
     padding-top: 4px;
     padding-bottom: 4px;
     border-radius: 6px;
+}
+
+
+
+.tabs-container {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+/* TAB BUTTON */
+.tab {
+    padding: 8px 16px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    background-color: #f1f1f1;
+    color: #333;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tab:hover {
+    background-color: #e0e0e0;
+    border-color: #ccc;
+}
+
+.tab.active {
+    background-color: #144876; /* match your primary blue */
+    color: #fff;
+    border-color: #0f355a;
+}
+
+/* Make tabs responsive for smaller screens */
+@media screen and (max-width: 600px) {
+    .tabs-container {
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
+    .tab {
+        flex: 1 1 auto;
+        text-align: center;
+        padding: 6px 10px;
+        font-size: 13px;
+    }
 }

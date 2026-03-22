@@ -281,11 +281,11 @@ body {
 .modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.45);
-    z-index: 1000;
+    background: rgba(0,0,0,0.45);
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.3s ease;
+    z-index: 100;
 }
 
 /* MODAL CONTAINER */
@@ -293,15 +293,13 @@ body {
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) scale(0);
-    width: 800px;
+    transform: translate(-50%, -50%) scale(0.85);
+    width: 720px;
     background: #fff;
-    border-radius: 12px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-    z-index: 1000; /* ABOVE overlay */
-    padding: 25px;
-    transition: transform 0.3s ease, opacity 0.3s ease;
+    border-radius: 10px;
+    z-index: 101;
     opacity: 0;
+    transition: all 0.3s ease;
 }
 
 .resident-modal-content label {
@@ -321,7 +319,7 @@ body {
     font-size: 14px;
 }
 
-.resident-modal-content button {
+.save{
     margin-top: 15px;
     width: 100%;
     padding: 10px;
@@ -340,8 +338,11 @@ body {
 /* SHOW STATE */
 .resident-modal.show {
     opacity: 1;
-    pointer-events: auto;
     transform: translate(-50%, -50%) scale(1);
+}
+
+.resident-modal-content {
+    padding: 25px;
 }
 
 .modal-overlay.show {
@@ -354,40 +355,61 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 12px;
+    margin-bottom: 15px;
 }
 
 .modal-header h3 {
-    font-size: 18px;
-    font-weight: bold;
+    font-size: 22px;
+    font-weight: 700;
+    color: #0f172a;
 }
 
 /* CLOSE BUTTON */
 .close-btn {
-    font-size: 24px;
+    font-size: 22px;
     cursor: pointer;
-    border: none;
-    background: none;
-    line-height: 1;
-    color: #333;
+    color: #94a3b8;
+    transition: 0.2s;
 }
 
 .close-btn:hover {
-    color: #9c2828;
+    color: #ef4444;
 }
+
 
 /* MODAL BODY */
 .modal-body {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 15px;
 }
 
-.modal-body label {
+.modal-row label,
+.rfid-row label {
     font-size: 13px;
-    font-weight: 600;
-    color: #444;
+    font-weight: 500;
+    color: #334155;
 }
+
+.modal-body input {
+    width: 100%;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #cbd5e1;
+    font-size: 14px;
+    background: #f8fafc;
+    transition: 0.2s;
+}
+
+.modal-body input:focus {
+    border-color: #144876;
+    background: #fff;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(20, 72, 118, 0.1);
+}
+
 
 .modal-body input,
 .modal-body select {
@@ -405,31 +427,12 @@ body {
 
 /* MODAL FOOTER */
 .modal-footer {
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 25px;
-    gap: 10px;
-}
-
-.modal-footer button {
-    padding: 8px 14px;
-    border-radius: 6px;
-    border: none;
-    cursor: pointer;
-    font-weight: 600;
+    margin-top: 8px;
 }
 
 .modal-footer .cancel {
     background: #e5e7eb;
-}
-
-.modal-footer .save {
-    background: #000;
-    color: #fff;
-}
-
-.modal-footer .save:hover {
-    background: #222;
+    color: #333;
 }
 
 .deactivate-btn{
@@ -448,4 +451,170 @@ body {
     padding: 6px 10px;
     border-radius: 6px;
     cursor: pointer;
+}
+
+/* RFID overlay */
+.rfid-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 500;
+}
+
+.rfid-overlay.show {
+    display: flex;
+}
+
+.rfid-box {
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    width: 320px;
+}
+
+.rfid-box i {
+    font-size: 40px;
+    color: #144876;
+    margin-bottom: 10px;
+}
+
+.rfid-box h3 {
+    margin-bottom: 5px;
+}
+
+.rfid-box p {
+    font-size: 14px;
+    color: #555;
+}
+
+.rfid-box button {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    background: #9c2828;
+    color: #fff;
+}
+
+#cancelRfid {
+    margin-top: 15px;
+    padding: 8px 14px;
+    background: #000;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* keep input + button inline */
+.rfid-input-group {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+}
+
+.rfid-input-group input,
+.rfid-input-group .rfid-btn {
+    flex: 1;
+    height: 40px;
+    margin-top: 10px;
+}
+
+
+.rfid-input-group .rfid-number {
+    flex: 1;
+    width: auto !important;   /* override width:100% */
+    height: 40px;
+    min-width: 0;
+}
+
+.rfid-row .rfid-input-group {
+    display: flex;
+    gap: 8px;
+}
+
+.rfid-input-group input {
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    min-width: 0;
+}
+
+.rfid-btn {
+    background: #144876;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rfid-btn:hover {
+    background: #0f355a;
+}
+
+
+.modal-row input {
+    width: 100%;
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+
+/* TABS CONTAINER */
+.tabs-container {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+/* TAB BUTTON */
+.tab {
+    padding: 8px 16px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    background-color: #f1f1f1;
+    color: #333;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tab:hover {
+    background-color: #e0e0e0;
+    border-color: #ccc;
+}
+
+.tab.active {
+    background-color: #144876; /* match your primary blue */
+    color: #fff;
+    border-color: #0f355a;
+}
+
+/* Make tabs responsive for smaller screens */
+@media screen and (max-width: 600px) {
+    .tabs-container {
+        flex-wrap: wrap;
+        gap: 5px;
+    }
+
+    .tab {
+        flex: 1 1 auto;
+        text-align: center;
+        padding: 6px 10px;
+        font-size: 13px;
+    }
 }

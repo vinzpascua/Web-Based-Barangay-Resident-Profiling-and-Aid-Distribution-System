@@ -46,7 +46,7 @@ if (isset($_SESSION['role'])) {
 
 <!-- MAIN CONTENT -->
 <main class="rp-dashboard">
-
+    
     <!-- GENERATE REPORT CARD -->
     <div class="rp-card">
 
@@ -113,28 +113,7 @@ if (isset($_SESSION['role'])) {
 
     </div>
 
-    <!-- STAT CARDS -->
-    <div class="stats-grid">
-
-        <div class="rp-card stat-card">
-            <i class="fa-solid fa-box"></i>
-            <h3>Total Distribution</h3>
-            <p class="stat-number">1,245</p>
-        </div>
-
-        <div class="rp-card stat-card">
-            <i class="fa-solid fa-users"></i>
-            <h3>Unique Beneficiaries</h3>
-            <p class="stat-number">980</p>
-        </div>
-
-        <div class="rp-card stat-card">
-            <i class="fa-solid fa-shield-halved"></i>
-            <h3>Duplicate Prevention</h3>
-            <p class="stat-number">265</p>
-        </div>
-
-    </div>
+    
 
 
         <!-- PROGRAM-WISE DISTRIBUTION CARD -->

@@ -4,23 +4,32 @@ document.addEventListener("DOMContentLoaded", () => {
     const overlay = document.getElementById("modalOverlay");
     const closeBtn = document.getElementById("closeModal");
     const form = document.getElementById("addResidentForm");
+    const submitBtn = document.getElementById("submitBtn"); // Explicit submit button
 
     const rfidId = document.getElementById("rfid_id");
     const rfidNumber = document.getElementById("rfid_number");
     const householdNumber = document.getElementById("household_number");
     const headOfFamily = document.getElementById("head_of_family");
+    const scanBtn = document.getElementById("scanRfidBtn");
+    const rfidOverlay = document.getElementById("rfidOverlay");
+    const cancelRfid = document.getElementById("cancelRfid");
+    const rfidInput = document.getElementById("rfid_number");
 
-    if (!openBtn || !modal || !overlay || !closeBtn || !form || !rfidId) {
+    if (!openBtn || !modal || !overlay || !closeBtn || !form || !rfidId || !submitBtn) {
         console.error("Modal elements missing");
         return;
     }
+
+    // HIDE modal and overlay on page load
+    modal.classList.remove("show");
+    overlay.classList.remove("show");
+    if (rfidOverlay) rfidOverlay.classList.remove("show");
 
     // OPEN MODAL FOR ADD
     openBtn.addEventListener("click", () => {
         form.reset();
         rfidId.value = ""; // clear hidden id
-        form.querySelector("button").innerText = "Issue Tag";
-
+        submitBtn.innerText = "Issue Tag"; // Only update submit button text
         modal.classList.add("show");
         overlay.classList.add("show");
     });
@@ -33,10 +42,43 @@ document.addEventListener("DOMContentLoaded", () => {
         overlay.classList.remove("show");
     }
 
+    let rfidBuffer = "";
+    let scanning = false;
+
+    // Show RFID overlay when scan button is clicked
+    if (scanBtn) {
+        scanBtn.addEventListener("click", () => {
+            if (rfidOverlay) rfidOverlay.classList.add("show");
+            rfidBuffer = "";
+            scanning = true;
+        });
+    }
+
+    // Cancel RFID scan
+    if (cancelRfid) {
+        cancelRfid.addEventListener("click", () => {
+            if (rfidOverlay) rfidOverlay.classList.remove("show");
+            scanning = false;
+            rfidBuffer = "";
+        });
+    }
+
+    // Keyboard simulation for RFID input
+    document.addEventListener("keydown", (e) => {
+        if (!scanning) return;
+        if (e.key === "Enter") {
+            if (rfidInput) rfidInput.value = rfidBuffer;
+            if (rfidOverlay) rfidOverlay.classList.remove("show");
+            scanning = false;
+            rfidBuffer = "";
+        } else if (e.key.length === 1) {
+            rfidBuffer += e.key;
+        }
+    });
+
     // SUBMIT FORM (Add or Update)
     form.addEventListener("submit", function (e) {
         e.preventDefault();
-
         const formData = new FormData(form);
 
         fetch("add_rfid_tags.php", {
@@ -46,12 +88,11 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(res => res.text())
         .then(data => {
             data = data.trim();
-
             if (data === "success") {
                 alert("RFID Tag saved successfully!");
                 closeModal();
                 form.reset();
-                location.reload(); // refresh table to show new/updated data
+                location.reload();
             } else if (data === "rfid_exists") {
                 alert("RFID already exists!");
             } else if (data === "missing") {
@@ -77,8 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
         householdNumber.value = editBtn.dataset.household || "";
         headOfFamily.value = editBtn.dataset.head || "";
 
-        form.querySelector("button").innerText = "Update Tag";
-
+        submitBtn.innerText = "Update Tag"; // Only update submit button
         modal.classList.add("show");
         overlay.classList.add("show");
     });
@@ -102,7 +142,6 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(data => {
             data = data.trim();
             if (data === "success") {
-                // Remove the table row
                 const row = deleteBtn.closest("tr");
                 if (row) row.remove();
                 alert("RFID tag deleted successfully!");
@@ -138,7 +177,6 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(data => {
             data = data.trim();
             if (data === "success") {
-                // Update the table row dynamically
                 const row = btn.closest("tr");
                 const statusSpan = row.querySelector(".status");
                 const toggleCell = btn.closest("td");
@@ -146,13 +184,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 if (statusSpan) statusSpan.textContent = action;
                 if (statusSpan) statusSpan.className = "status " + (action === "Active" ? "active" : "inactive");
 
-                // Switch the button
                 if (activateBtn) {
                     toggleCell.innerHTML = `<button class="deactivate-btn" data-id="${rfidId}">Deactivate</button>`;
                 } else {
                     toggleCell.innerHTML = `<button class="activate-btn" data-id="${rfidId}">Activate</button>`;
                 }
-
             } else {
                 alert("Failed to update status: " + data);
             }
@@ -162,5 +198,4 @@ document.addEventListener("DOMContentLoaded", () => {
             alert("Server error");
         });
     });
-
 });

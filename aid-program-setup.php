@@ -47,7 +47,10 @@ if (isset($_SESSION['role'])) {
 
 <!-- MAIN CONTENT -->
 <main class="rp-dashboard">
-
+    <?php
+$status = $_GET['status'] ?? 'Active';
+$search = $_GET['search'] ?? '';
+?>
     <div class="rp-card">
 
         <!-- UPPER PART -->
@@ -55,13 +58,38 @@ if (isset($_SESSION['role'])) {
             <div class="header-text">
                 <h2>Aid Programs</h2>
                 <p>Create and manage distribution programs</p>
+
+                <div class="tabs-container">
+                    
+
+                    <a href="?status=Active&search=<?php echo urlencode($_GET['search'] ?? ''); ?>" 
+                       class="tab <?php echo ($status == 'Active') ? 'active' : ''; ?>">
+                       Active
+                    </a>
+
+                    <a href="?status=Inactive&search=<?php echo urlencode($_GET['search'] ?? ''); ?>" 
+                       class="tab <?php echo ($status == 'Inactive') ? 'active' : ''; ?>">
+                       Inactive
+                    </a>
+
+                    <a href="?status=all&search=<?php echo urlencode($_GET['search'] ?? ''); ?>" 
+                       class="tab <?php echo ($status == 'all') ? 'active' : ''; ?>">
+                       All
+                    </a>
+                </div>
             </div>
 
             <div class="rp-actions">
-                <form method="GET" style="margin-bottom: 15px;">
+                <!-- SEARCH -->
+                <form method="GET" style="display: flex; gap: 10px;">
                     <input type="text" name="search" placeholder="Search aid programs..." 
                         value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>">
+
+                    <!-- keep status when searching -->
+                    <input type="hidden" name="status" value="<?php echo htmlspecialchars($_GET['status'] ?? 'Active'); ?>">
                 </form>
+
+                <!-- ADD BUTTON -->
                 <button class="add-resident">
                     <i class="fa-solid fa-plus"></i>
                     Add Program
@@ -89,18 +117,29 @@ if (isset($_SESSION['role'])) {
                             die("Connection failed: " . mysqli_connect_error());
                         }
 
-                        // Get search value if exists
                         $search = trim($_GET['search'] ?? '');
-                        $searchSQL = "";
+                        $status = $_GET['status'] ?? 'Active';
+
+                        $conditions = [];
 
                         if ($search !== "") {
                             $searchEscaped = mysqli_real_escape_string($conn, $search);
-                            $searchSQL = "WHERE program_name LIKE '%$searchEscaped%' 
-                                        OR aid_type LIKE '%$searchEscaped%' 
-                                        OR date_scheduled LIKE '%$searchEscaped%'";
+                            $conditions[] = "(program_name LIKE '%$searchEscaped%' 
+                                            OR aid_type LIKE '%$searchEscaped%' 
+                                            OR date_scheduled LIKE '%$searchEscaped%')";
                         }
 
-                        $sql = "SELECT * FROM aid_program $searchSQL ORDER BY id DESC";
+                        if ($status !== "all") {
+                            $statusEscaped = mysqli_real_escape_string($conn, $status);
+                            $conditions[] = "status = '$statusEscaped'";
+                        }
+
+                        $whereSQL = "";
+                        if (!empty($conditions)) {
+                            $whereSQL = "WHERE " . implode(" AND ", $conditions);
+                        }
+
+                        $sql = "SELECT * FROM aid_program $whereSQL ORDER BY id DESC";
                         $result = mysqli_query($conn, $sql);
 
                         if ($result && mysqli_num_rows($result) > 0) {
@@ -132,8 +171,8 @@ if (isset($_SESSION['role'])) {
                         }
 
                         mysqli_close($conn);
-                        ?>
-                    </tbody>
+                    ?>
+                </tbody>
             </table>
         </div>
 
