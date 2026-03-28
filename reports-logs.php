@@ -79,21 +79,21 @@ if (isset($_SESSION['role'])) {
 
     mysqli_close($conn);
     ?>
-</select>
-            </div>
+    </select>
+                </div>
 
-            <!-- Program -->
-            <div class="form-field">
-                <label>Aid Type</label>
-                <select id="program" disabled>
-    <option value="" disabled selected>Select Aid Type</option>
-</select>
+                <!-- Program -->
+                <div class="form-field">
+                    <label>Aid Type</label>
+                    <select id="program" disabled>
+        <option value="" disabled selected>Select Aid Type</option>
+    </select>
             </div>
 
             <!-- Generate Button -->
             <div class="generate-wrapper">
                 <button class="generate-report">
-                    Generate Report
+                    Search Report
                 </button>
             </div>
 

@@ -307,9 +307,7 @@ button i {
 
     display: flex;
     flex-direction: column;
-    gap: 10px;
 
-    align-items: flex-start; 
 }
 
 .program-text {
@@ -394,12 +392,18 @@ button i {
     font-size: 20px;
     font-weight: 700;
     color: #000;
+    margin-left: 10px;
+    padding-bottom: 8px;
 }
 
-.program-details span {
+.program-details {
     font-size: 16px;
     color: #333;
-    margin-right: 12px;
+    margin-left: 10px;
+    margin-top: 3px;
+    display: flex;
+    gap: 20px;
+    
 }
 
 .hidden-program {
