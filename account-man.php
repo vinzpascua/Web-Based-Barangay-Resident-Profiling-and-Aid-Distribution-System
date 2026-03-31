@@ -65,7 +65,7 @@ if (isset($_SESSION['role'])) {
                     value="<?php echo $_GET['search'] ?? ''; ?>">
 
                 <button class="add-resident" id="openModalBtn">
-                    <i class="fa-solid fa-plus"></i> Add Staff Account
+                    <i class="fa-solid fa-plus"></i> Add Account
                 </button>
             </div>
         </div>
