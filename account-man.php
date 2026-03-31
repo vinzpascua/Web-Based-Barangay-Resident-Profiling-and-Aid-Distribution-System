@@ -64,7 +64,9 @@ if (isset($_SESSION['role'])) {
                     placeholder="Search users..."
                     value="<?php echo $_GET['search'] ?? ''; ?>">
 
-                
+                <button class="add-resident" id="openModalBtn">
+                    <i class="fa-solid fa-plus"></i> Add Staff Account
+                </button>
             </div>
         </div>
 
@@ -83,86 +85,86 @@ if (isset($_SESSION['role'])) {
 
                 <tbody id="residentTableBody">
 
-<?php
-$conn = mysqli_connect("localhost", "root", "Password", "barangay_db");
-$search = $_GET['search'] ?? '';
+                <?php
+                $conn = mysqli_connect("localhost", "root", "Password", "barangay_db");
+                $search = $_GET['search'] ?? '';
 
-$limit = 8;
-$page = isset($_GET['page']) ? (int)$page : 1;
-$offset = ($page - 1) * $limit;
+                $limit = 8;
+                $page = isset($_GET['page']) ? (int)$page : 1;
+                $offset = ($page - 1) * $limit;
 
-// COUNT
-if ($search !== '') {
-    $search_safe = mysqli_real_escape_string($conn, $search);
+                // COUNT
+                if ($search !== '') {
+                    $search_safe = mysqli_real_escape_string($conn, $search);
 
-    $count_sql = "
-        SELECT COUNT(*) as total 
-        FROM users
-        WHERE first_name LIKE '%$search_safe%'
-        OR last_name LIKE '%$search_safe%'
-        OR username LIKE '%$search_safe%'
-        OR role LIKE '%$search_safe%'
-    ";
-} else {
-    $count_sql = "SELECT COUNT(*) as total FROM users";
-}
+                    $count_sql = "
+                        SELECT COUNT(*) as total 
+                        FROM users
+                        WHERE first_name LIKE '%$search_safe%'
+                        OR last_name LIKE '%$search_safe%'
+                        OR username LIKE '%$search_safe%'
+                        OR role LIKE '%$search_safe%'
+                    ";
+                } else {
+                    $count_sql = "SELECT COUNT(*) as total FROM users";
+                }
 
-$count_result = mysqli_query($conn, $count_sql);
-$total_records = mysqli_fetch_assoc($count_result)['total'];
-$total_pages = ceil($total_records / $limit);
+                $count_result = mysqli_query($conn, $count_sql);
+                $total_records = mysqli_fetch_assoc($count_result)['total'];
+                $total_pages = ceil($total_records / $limit);
 
-// QUERY
-if ($search !== '') {
-    $sql = "
-        SELECT * FROM users
-        WHERE first_name LIKE '%$search_safe%'
-        OR last_name LIKE '%$search_safe%'
-        OR username LIKE '%$search_safe%'
-        OR role LIKE '%$search_safe%'
-        ORDER BY id DESC
-        LIMIT $limit OFFSET $offset
-    ";
-} else {
-    $sql = "SELECT * FROM users ORDER BY id DESC LIMIT $limit OFFSET $offset";
-}
+                // QUERY
+                if ($search !== '') {
+                    $sql = "
+                        SELECT * FROM users
+                        WHERE first_name LIKE '%$search_safe%'
+                        OR last_name LIKE '%$search_safe%'
+                        OR username LIKE '%$search_safe%'
+                        OR role LIKE '%$search_safe%'
+                        ORDER BY id DESC
+                        LIMIT $limit OFFSET $offset
+                    ";
+                } else {
+                    $sql = "SELECT * FROM users ORDER BY id DESC LIMIT $limit OFFSET $offset";
+                }
 
-$result = mysqli_query($conn, $sql);
+                $result = mysqli_query($conn, $sql);
 
-while ($row = mysqli_fetch_assoc($result)) {
+                while ($row = mysqli_fetch_assoc($result)) {
 
-    $fullName = htmlspecialchars($row['first_name'] . ' ' . $row['last_name']);
-    $username = htmlspecialchars($row['username']);
-    $role = htmlspecialchars($row['role']);
-    $status = $row['status'] ?? 'active';
+                    $fullName = htmlspecialchars($row['first_name'] . ' ' . $row['last_name']);
+                    $username = htmlspecialchars($row['username']);
+                    $role = htmlspecialchars($row['role']);
+                    $status = $row['status'] ?? 'active';
 
-    $statusBadge = ($status === 'active')
-        ? "<span style='color:green;font-weight:600;'>Active</span>"
-        : "<span style='color:red;font-weight:600;'>Inactive</span>";
+                    $statusBadge = ($status === 'active')
+                        ? "<span class='badge active'>Active</span>"
+                        : "<span class='badge inactive'>Inactive</span>";
 
-    echo "<tr>
-        <td>{$fullName}</td>
-        <td>{$username}</td>
-        <td>{$role}</td>
-        <td>{$statusBadge}</td>
-        <td>";
+                    echo "<tr>
+                        <td>{$fullName}</td>
+                        <td>{$username}</td>
+                        <td>{$role}</td>
+                        <td>{$statusBadge}</td>
+                        <td>";
 
-    // ONLY TOGGLE BUTTON
-    if ($status === 'active') {
-        echo "<button class='deactivate' data-id='{$row['id']}'>
-                Deactivate
-              </button>";
-    } else {
-        echo "<button class='activate' data-id='{$row['id']}'>
-                Activate
-              </button>";
-    }
+                    // ONLY TOGGLE BUTTON
+                    if ($status === 'active') {
+                        echo "<button class='deactivate' data-id='{$row['id']}'>
+                                Deactivate
+                            </button>";
+                    } else {
+                        echo "<button class='activate' data-id='{$row['id']}'>
+                                Activate
+                            </button>";
+                    }
 
-    echo "</td>
-    </tr>";
-}
+                    echo "</td>
+                    </tr>";
+                }
 
-mysqli_close($conn);
-?>
+                mysqli_close($conn);
+                ?>
 
                 <tr id="noResultRow" style="display:none;">
                     <td colspan="5" style="text-align:center; padding:20px; color:#777;">
@@ -212,6 +214,67 @@ mysqli_close($conn);
     </div>
 
 </main>
+
+<!-- MODAL OVERLAY -->
+<div class="modal-overlay" id="modalOverlay"></div>
+
+<!-- ADD STAFF MODAL -->
+<div class="resident-modal" id="residentModal">
+    <div class="resident-modal-content">
+        <div class="modal-header">
+            <div class="modal-title">
+                <i class="fa-solid fa-user"></i>
+                <h3>Add Staff Account</h3>
+            </div>
+            <span class="close-btn" id="closeModal">&times;</span>
+        </div>
+
+        <form id="addStaffForm" class="resident-form-grid">
+            
+            <div class="form-row three">
+                <div class="form-field">
+                    <label>First Name</label>
+                    <input type="text" name="first_name" required>
+                </div>
+
+                <div class="form-field">
+                    <label>Last Name</label>
+                    <input type="text" name="last_name" required>
+                </div>
+
+                <div class="form-field">
+                    <label>Username</label>
+                    <input type="text" name="username" required>
+                </div>
+            </div>
+
+            <div class="form-row three">
+                <div class="form-field">
+                    <label>Password</label>
+                    <input type="password" name="password" required>
+                </div>
+
+                <div class="form-field">
+                    <label>Role</label>
+                    <select name="role" required>
+                        <option value="staff">Staff</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+
+                <div class="form-field">
+                    <label>Status</label>
+                    <select name="status">
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit">Save Account</button>
+        </form>
+    </div>
+</div>
 
 <!-- Custom Popup -->
 <link rel="stylesheet" href="assets/popup/popup.css">

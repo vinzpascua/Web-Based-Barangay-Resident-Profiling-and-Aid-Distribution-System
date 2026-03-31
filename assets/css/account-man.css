@@ -427,7 +427,7 @@ input[type="date"] {
 
 
 .deactivate {
-    background: #28a745;
+    background: #9c2828;
     color: #fff;
     border: none;
     padding: 6px 10px;
@@ -436,10 +436,21 @@ input[type="date"] {
 }
 
 .activate {
-    background: #dc3545;
+    background: #000;
     color: #fff;
     border: none;
     padding: 6px 10px;
     border-radius: 6px;
     cursor: pointer;
+}
+
+
+.badge {
+    background-color: #000;
+    color: #fff;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    border-radius: 6px;
 }
