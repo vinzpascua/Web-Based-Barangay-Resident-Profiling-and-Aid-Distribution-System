@@ -99,10 +99,23 @@ mysqli_close($conn);
         </div>
     </div>
 
-    <div class="nav-right">
-        <img src="assets/images/profiles.png" alt="User">
-        <span>Welcome, Admin</span>
+    <div class="nav-right" id="profileWrapper">
+    <span>Welcome, <?php echo htmlspecialchars($currentName); ?></span>
+
+    <img src="assets/images/profiles.png" alt="User" id="profileBtn">
+
+    <!-- DROPDOWN -->
+    <div class="profile-dropdown" id="profileDropdown">
+        <div class="profile-info">
+            <p><strong><?php echo htmlspecialchars($currentName); ?></strong></p>
+            <small>Admin Account</small>
+        </div>
+
+        <hr>
+
+        <button id="changePasswordBtn">Change Password</button>
     </div>
+</div>
 </nav>
 
 <!-- MAIN CONTENT -->
@@ -223,6 +236,38 @@ mysqli_close($conn);
 </section>
 
 </main>
+
+
+<!-- CHANGE PASSWORD MODAL -->
+<div id="changePasswordModal" class="modal-overlay">
+    <div class="modal-box">
+
+        <h2>Change Password</h2>
+
+        <form id="changePasswordForm">
+
+            <label>New Password</label>
+            <input type="password" name="new_password" id="newPassword" required>
+
+            
+            <div class="strength-wrapper">
+                <div class="strength-bar">
+                    <div id="strengthFill"></div>
+                </div>
+                <small id="strengthText">Password strength</small>
+            </div>
+
+            <label>Confirm New Password</label>
+            <input type="password" name="confirm_password" required>
+
+            <div class="modal-actions">
+                <button type="button" id="closeChangePassword">Cancel</button>
+                <button type="submit">Save</button>
+            </div>
+
+        </form>
+    </div>
+</div>
 
 <!-- Custom Popup -->
 <link rel="stylesheet" href="assets/popup/popup.css">

@@ -46,14 +46,37 @@ if (isset($_SESSION['role'])) {
 
 <!-- MAIN CONTENT -->
 <main class="rp-dashboard">
+    <?php
+    $status = strtolower($_GET['status'] ?? 'active');
+    $search = $_GET['search'] ?? '';
+    ?>
 
     <div class="rp-card">
 
         <!-- UPPER PART -->
         <div class="rp-header">
             <div class="header-text">
-                <h2>User Accounts</h2>
-                <p>View and manage system users</p>
+                <h2>User Account</h2>
+                <p>Create and manage user accounts</p>
+
+                <div class="tabs-container">
+                    
+
+                    <a href="?status=active&search=<?php echo urlencode($_GET['search'] ?? ''); ?>" 
+                    class="tab <?php echo ($status == 'active') ? 'active' : ''; ?>">
+                    Active
+                    </a>
+
+                    <a href="?status=inactive&search=<?php echo urlencode($_GET['search'] ?? ''); ?>" 
+                    class="tab <?php echo ($status == 'inactive') ? 'active' : ''; ?>">
+                    Inactive
+                    </a>
+
+                    <a href="?status=all&search=<?php echo urlencode($_GET['search'] ?? ''); ?>" 
+                    class="tab <?php echo ($status == 'all') ? 'active' : ''; ?>">
+                    All
+                    </a>
+                </div>
             </div>
             
             <div class="rp-actions">
@@ -83,50 +106,59 @@ if (isset($_SESSION['role'])) {
                     </tr>
                 </thead>
 
-                <tbody id="residentTableBody">
+               <tbody id="residentTableBody">
 
                 <?php
                 $conn = mysqli_connect("localhost", "root", "Password", "barangay_db");
+
                 $search = $_GET['search'] ?? '';
+                $status = strtolower($_GET['status'] ?? 'active');
 
                 $limit = 8;
-                $page = isset($_GET['page']) ? (int)$page : 1;
+                $page = isset($_GET['page']) ? (int)$_GET['page'] : 1; 
                 $offset = ($page - 1) * $limit;
 
-                // COUNT
+                // =====================
+                // WHERE CONDITIONS
+                // =====================
+                $conditions = [];
+
                 if ($search !== '') {
                     $search_safe = mysqli_real_escape_string($conn, $search);
 
-                    $count_sql = "
-                        SELECT COUNT(*) as total 
-                        FROM users
-                        WHERE first_name LIKE '%$search_safe%'
-                        OR last_name LIKE '%$search_safe%'
-                        OR username LIKE '%$search_safe%'
-                        OR role LIKE '%$search_safe%'
-                    ";
-                } else {
-                    $count_sql = "SELECT COUNT(*) as total FROM users";
+                    $conditions[] = "(first_name LIKE '%$search_safe%'
+                                    OR last_name LIKE '%$search_safe%'
+                                    OR username LIKE '%$search_safe%'
+                                    OR role LIKE '%$search_safe%')";
                 }
 
+                if ($status !== 'all') {
+                    $status_safe = mysqli_real_escape_string($conn, strtolower($status));
+                    $conditions[] = "status = '$status_safe'";
+                }
+
+                $whereSQL = '';
+                if (!empty($conditions)) {
+                    $whereSQL = "WHERE " . implode(" AND ", $conditions);
+                }
+
+                // =====================
+                // COUNT QUERY
+                // =====================
+                $count_sql = "SELECT COUNT(*) as total FROM users $whereSQL";
                 $count_result = mysqli_query($conn, $count_sql);
                 $total_records = mysqli_fetch_assoc($count_result)['total'];
                 $total_pages = ceil($total_records / $limit);
 
-                // QUERY
-                if ($search !== '') {
-                    $sql = "
-                        SELECT * FROM users
-                        WHERE first_name LIKE '%$search_safe%'
-                        OR last_name LIKE '%$search_safe%'
-                        OR username LIKE '%$search_safe%'
-                        OR role LIKE '%$search_safe%'
-                        ORDER BY id DESC
-                        LIMIT $limit OFFSET $offset
-                    ";
-                } else {
-                    $sql = "SELECT * FROM users ORDER BY id DESC LIMIT $limit OFFSET $offset";
-                }
+                // =====================
+                // MAIN QUERY
+                // =====================
+                $sql = "
+                    SELECT * FROM users
+                    $whereSQL
+                    ORDER BY id DESC
+                    LIMIT $limit OFFSET $offset
+                ";
 
                 $result = mysqli_query($conn, $sql);
 
@@ -135,9 +167,9 @@ if (isset($_SESSION['role'])) {
                     $fullName = htmlspecialchars($row['first_name'] . ' ' . $row['last_name']);
                     $username = htmlspecialchars($row['username']);
                     $role = htmlspecialchars($row['role']);
-                    $status = $row['status'] ?? 'active';
+                    $statusRow = $row['status'] ?? 'active';
 
-                    $statusBadge = ($status === 'active')
+                    $statusBadge = ($statusRow === 'active')
                         ? "<span class='badge active'>Active</span>"
                         : "<span class='badge inactive'>Inactive</span>";
 
@@ -148,8 +180,8 @@ if (isset($_SESSION['role'])) {
                         <td>{$statusBadge}</td>
                         <td>";
 
-                    // ONLY TOGGLE BUTTON
-                    if ($status === 'active') {
+                    // Toggle button
+                    if ($statusRow === 'active') {
                         echo "<button class='deactivate' data-id='{$row['id']}'>
                                 Deactivate
                             </button>";
@@ -162,8 +194,6 @@ if (isset($_SESSION['role'])) {
                     echo "</td>
                     </tr>";
                 }
-
-                mysqli_close($conn);
                 ?>
 
                 <tr id="noResultRow" style="display:none;">
@@ -224,7 +254,7 @@ if (isset($_SESSION['role'])) {
         <div class="modal-header">
             <div class="modal-title">
                 <i class="fa-solid fa-user"></i>
-                <h3>Add Staff Account</h3>
+                <h3>Add Account</h3>
             </div>
             <span class="close-btn" id="closeModal">&times;</span>
         </div>
