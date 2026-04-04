@@ -1,7 +1,8 @@
 const taglines = [
-    "Making Services Easier for Residents and Staff",
-    "Fast, Accessible, and Transparent Barangay Services",
-    "Connecting the Community Through Efficient Governance"
+    "Fast and Transparent Barangay Services",
+    "Simple, Fast, Accessible Services",
+    "Efficient Services for Every Resident",
+    "Connecting Community Through Service"
 ];
 
 let index = 0;

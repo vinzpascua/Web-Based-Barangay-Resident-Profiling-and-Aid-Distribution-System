@@ -1,130 +1,156 @@
 * {
-    box-sizing: border-box;
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
     font-family: 'Segoe UI', sans-serif;
 }
 
-/* MAIN CONTAINER */
-.container {
-    display: flex;
+/* BACKGROUND IMAGE PATH*/
+.bg {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: url('../images/barangay.jpg') no-repeat center center/cover;
+    z-index: -1;
+}
+
+/* CENTER PAGE */
+body {
     height: 100vh;
-}
-
-/* LEFT SIDE */
-.left-panel {
-    flex: 1;
-    background: #0b3d91; /* Navy blue */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: white;
-    text-align: center;
-    padding: 40px;
-    
-}
-
-#tagline {
-    font-size: 24px;
-    font-weight: bold;
-    opacity: 1;
-    transition: opacity 0.5s ease;
-    white-space: nowrap;
-    overflow: hidden;
-    border-right: 2px solid white; /* typing cursor */
-    width: fit-content;
-}
-
-
-/* RIGHT SIDE */
-.right-panel {
-    flex: 1;
-    background: #f4f6f9;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
 /* LOGIN CARD */
-.auth-box {
-    background: #ffffff;
-    padding: 40px 30px;
-    border-radius: 12px;
-    width: 350px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+.login-card {
+    width: 800px;
+    height: 450px;
+    display: flex;
+    border-radius: 20px;
+    overflow: hidden;
+
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+}
+
+/* LEFT PANEL */
+.left-panel {
+    flex: 1;
+    background: rgba(11, 60, 145, 0.226);
+   
+
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 30px;
+}
+
+.logo {
+    width: 125px;
+    margin-bottom: 8px;
+}
+
+.left-panel h1 {
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+#tagline {
+    font-size: 16px;
+    font-weight: 400;
+    border-right: 2px solid white;
+    transition: opacity 0.5s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    width: fit-content;
+    animation: typing 3s steps(40, end) forwards, blink 0.7s infinite;
+}
+
+@keyframes blink {
+  50% {
+    border-color: transparent;
+  }
+}
+
+/* RIGHT PANEL */
+.right-panel {
+    flex: 1;
+    background: white;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    padding: 40px;
 }
 
 /* TITLE */
-.auth-box h2 {
-    margin-bottom: 5px;
-    display: flex;
-    justify-content: center;
+.right-panel h2 {
+    margin-bottom: 3px;
+    font-size: 28px;
 }
 
 .subtitle {
-    font-size: 14px;
+    font-size: 16px;
     color: #777;
-    margin-bottom: 25px;
-    display: flex;
-    justify-content: center;
+    margin-bottom: 18px;
 }
 
 /* INPUT */
-.input-group label {
+.right-panel label {
     font-size: 13px;
     font-weight: 600;
 }
 
-.auth-box input {
+.right-panel input {
     width: 100%;
     padding: 10px;
     margin: 8px 0 15px;
-    border-radius: 6px;
     border: 1px solid #ccc;
-    transition: 0.2s;
+    border-radius: 6px;
 }
 
-.auth-box input:focus {
+.right-panel input:focus {
     border-color: #0b3d91;
     outline: none;
-    box-shadow: 0 0 0 2px rgba(11,61,145,0.2);
 }
 
 /* BUTTON */
-.auth-box button {
+.right-panel button {
     width: 100%;
     padding: 12px;
     background: #0b3d91;
     color: white;
     border: none;
-    border-radius: 6px;
+    border-radius: 18px;
     cursor: pointer;
     font-weight: bold;
-    transition: 0.2s;
+    margin-top: 10px;
 }
 
-.auth-box button:hover {
+.right-panel button:hover {
     background: #092c6a;
 }
 
 /* ERROR */
 .error {
     color: red;
-    margin-top: 10px;
     font-size: 13px;
+    margin-top: 10px;
     text-align: center;
 }
-.card-logo {
-    display: block;
-    width: 70px;
-    margin: 0 auto 15px;
-}
 
-.authorized-p{
-    font-size: 16px;
-    font-weight: 600;
-    color: #777;
-    margin-top: 18px;
-    display: flex;
-    justify-content: center;
+/* FOOTER */
+.authorized {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #666;
+    text-align: center;
 }

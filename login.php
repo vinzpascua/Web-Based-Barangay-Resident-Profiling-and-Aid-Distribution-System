@@ -73,56 +73,50 @@ mysqli_close($conn);
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Web-Based-Barangay-Resident-Profiling-and-Aid-Distribution-System</title>
-    <link rel="stylesheet" href="assets/css/login.css">
+<meta charset="UTF-8">
+<title>Barangay Login</title>
+<link rel="stylesheet" href="assets/css/login.css">
 </head>
+
 <body>
 
-<div class="container">
+<div class="bg"></div>
 
-    <!-- LEFT SIDE (Branding only text now) -->
-<div class="left-panel">
-    <div class="left-content">
-        <h1 id="tagline"></h1>
+<div class="login-card">
+
+    <!-- LEFT GLASS PANEL -->
+    <div class="left-panel">
+        <img src="assets/images/logos.png" class="logo" alt="logo">
+
+        <h1>Barangay Abangan Norte</h1>
+        <p id="tagline"></p>
     </div>
-</div>
 
-    <!-- RIGHT SIDE (Login Form) -->
+    <!-- RIGHT FORM PANEL -->
     <div class="right-panel">
-        <div class="auth-box">
 
-            
-            <img src="assets/images/logos.png" alt="logo" class="card-logo">
+        <h2>Sign In</h2>
+        <p class="subtitle">Please login to your account</p>
 
-            <h2>Barangay Abangan Norte</h2>
-            <p class="subtitle">Please login to your account</p>
+        <form method="POST" action="">
+            <label>Username</label>
+            <input type="text" name="username" required>
 
-            <form method="POST" action="">
-                <div class="input-group">
-                    <label>Username</label>
-                    <input type="text" name="username" placeholder="Enter your username" required>
+            <label>Password</label>
+            <input type="password" name="password" required>
 
-                    <label>Password</label>
-                    <input type="password" name="password" placeholder="Enter your password" required>
-                </div>
+            <button type="submit" name="login">Sign In</button>
+        </form>
 
-                <button type="submit" name="login">Sign in</button>
-            </form>
+        <?php if (!empty($error)) { ?>
+            <p class="error"><?php echo $error; ?></p>
+        <?php } ?>
 
-            <?php if (!empty($error)) { ?>
-                <p class="error">
-                    <?php echo $error; ?>
-                </p>
-            <?php } ?>
+        <p class="authorized">Authorized Personnel Only</p>
 
-            <p class="authorized-p">Authorized Personnel Only</p>
-
-        </div>
     </div>
 
 </div>
-
 
 <script src="assets/js/login.js"></script>
 
