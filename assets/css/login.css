@@ -2,187 +2,129 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    font-family: 'Segoe UI', sans-serif;
 }
 
-.auth-body {
+/* MAIN CONTAINER */
+.container {
+    display: flex;
     height: 100vh;
-    position: relative;
+}
+
+/* LEFT SIDE */
+.left-panel {
+    flex: 1;
+    background: #0b3d91; /* Navy blue */
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #ffffff;
-    font-family: system-ui, -apple-system, BlinkMacSystemFont,
-        'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
-        'Open Sans', 'Helvetica Neue', sans-serif;
+    color: white;
+    text-align: center;
+    padding: 40px;
+    
+}
+
+#tagline {
+    font-size: 24px;
+    font-weight: bold;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+    white-space: nowrap;
     overflow: hidden;
+    border-right: 2px solid white; /* typing cursor */
+    width: fit-content;
 }
 
-.auth-body::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background-image: url("../images/logo.png");
-    background-repeat: no-repeat;
-    background-position: left -245px center;
-    background-size: 65% 110%;
-    opacity: 0;
-    z-index: 0;
-    animation: bgFade 1.2s ease forwards;
-}
 
-.auth-box {
-    position: relative;
-    z-index: 1;
-    background: #ffffff;
-    width: 500px;
-    min-height: 500px;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+/* RIGHT SIDE */
+.right-panel {
+    flex: 1;
+    background: #f4f6f9;
     display: flex;
-    flex-direction: column;
     justify-content: center;
     align-items: center;
-    gap: 5px;
-    opacity: 0;
-    transform: translateY(30px);
-    animation: cardIn 0.8s ease forwards;
-    animation-delay: 0.4s;
 }
 
-.auth-box img {
-    width: 120px;
-    margin-bottom: 10px;
-    opacity: 0;
-    animation: logoPop 0.6s ease forwards;
-    animation-delay: 0.8s;
+/* LOGIN CARD */
+.auth-box {
+    background: #ffffff;
+    padding: 40px 30px;
+    border-radius: 12px;
+    width: 350px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+/* TITLE */
+.auth-box h2 {
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: center;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: #777;
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: center;
+}
+
+/* INPUT */
+.input-group label {
+    font-size: 13px;
+    font-weight: 600;
 }
 
 .auth-box input {
     width: 100%;
     padding: 10px;
-    border-radius: 5px;
-    opacity: 0;
-    transform: translateY(15px);
-    animation: fieldIn 0.5s ease forwards;
-    transition: all 0.25s ease;
-}
-
-.auth-box input {
-    margin-bottom: 12px;
+    margin: 8px 0 15px;
+    border-radius: 6px;
     border: 1px solid #ccc;
-}
-
-.auth-box input:nth-of-type(1) { animation-delay: 1s; }
-.auth-box input:nth-of-type(2) { animation-delay: 1.15s; }
-
-.auth-box input:hover {
-    border-color: #000;
+    transition: 0.2s;
 }
 
 .auth-box input:focus {
+    border-color: #0b3d91;
     outline: none;
-    border-color: #000;
-    box-shadow: 0 0 0 2px rgba(0,0,0,0.15);
+    box-shadow: 0 0 0 2px rgba(11,61,145,0.2);
 }
 
+/* BUTTON */
 .auth-box button {
     width: 100%;
     padding: 12px;
-    margin-top: 10px;
-    background: #000000;
-    color: #ffffff;
+    background: #0b3d91;
+    color: white;
     border: none;
     border-radius: 6px;
-    font-size: 17px;
     cursor: pointer;
-    transition: all 0.25s ease;
+    font-weight: bold;
+    transition: 0.2s;
 }
 
 .auth-box button:hover {
-    background: #222222;
-    transform: translateY(-2px) scale(1.05);
-    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
-    
+    background: #092c6a;
 }
 
-.auth-box button:active {
-    transform: scale(0.98);
-}
-
-.Household {
-    color: #b4b4b4;
-    font-weight: 600;
-    text-align: center;
-    padding-bottom: 25px;
-    opacity: 0;
-    animation: fadeUp 0.5s ease forwards;
-    animation-delay: 0.9s;
-}
-
-.authorized-p {
-    color: #b4b4b4;
-    font-weight: 600;
-    text-align: center;
-    padding-top: 15px;
-    opacity: 0;
-    animation: fadeUp 0.5s ease forwards;
-    animation-delay: 1.4s;
-}
-
-.auth-box a {
-    padding-bottom: 15px;
-    opacity: 0;
-    animation: fadeUp 0.5s ease forwards;
-    animation-delay: 1.5s;
-    transition: color 0.2s ease;
-}
-
-.auth-box a:hover {
-    color: #555;
-}
-
-.Register {
+/* ERROR */
+.error {
+    color: red;
     margin-top: 10px;
-    text-decoration: none;
-    color: #000;
-    font-weight: bold;
+    font-size: 13px;
+    text-align: center;
+}
+.card-logo {
+    display: block;
+    width: 70px;
+    margin: 0 auto 15px;
 }
 
-.input-group label {
-    font-weight: 700;
-}
-
-@keyframes cardIn {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes bgFade {
-    to {
-        opacity: 0.55;
-    }
-}
-
-@keyframes fadeUp {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-@keyframes logoPop {
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
-}
-
-@keyframes fieldIn {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+.authorized-p{
+    font-size: 16px;
+    font-weight: 600;
+    color: #777;
+    margin-top: 18px;
+    display: flex;
+    justify-content: center;
 }

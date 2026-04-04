@@ -31,7 +31,7 @@ mysqli_close($conn);
 <head>
     <meta charset="UTF-8">
     <title>Staff Dashboard</title>
-    <link rel="stylesheet" href="assets/css/admin-dashboard.css">
+    <link rel="stylesheet" href="assets/css/staff-dashboard.css">
     <link rel="stylesheet" href="fontawesome/fontawesome/css/all.css">
 </head>
 <body>
@@ -62,7 +62,7 @@ mysqli_close($conn);
     <div class="sidebar-section">
         <p class="sidebar-section-title">Report</p>
         <ul class="sidebar-menu">
-            <li><a href="reports-logs.html"><i class="fa-solid fa-file-lines"></i> <span>Reports & Logs</span></a></li>
+            <li><a href="reports-logs.php"><i class="fa-solid fa-file-lines"></i> <span>Reports & Logs</span></a></li>
         </ul>
     </div>
 
@@ -90,10 +90,23 @@ mysqli_close($conn);
         </div>
     </div>
 
-    <div class="nav-right">
-        <img src="assets/images/profiles.png" alt="User">
-        <span>Welcome, Staff</span>
+    <div class="nav-right" id="profileWrapper">
+    <span>Welcome, <?php echo htmlspecialchars($currentName); ?></span>
+
+    <img src="assets/images/profiles.png" alt="User" id="profileBtn">
+
+    <!-- DROPDOWN -->
+    <div class="profile-dropdown" id="profileDropdown">
+        <div class="profile-info">
+            <p><strong><?php echo htmlspecialchars($currentName); ?></strong></p>
+            <small>Admin Account</small>
+        </div>
+
+        <hr>
+
+        <button id="changePasswordBtn">Change Password</button>
     </div>
+</div>
 </nav>
 
 <!-- MAIN CONTENT -->
@@ -195,6 +208,38 @@ mysqli_close($conn);
 
 </main>
 
+
+<!-- CHANGE PASSWORD MODAL -->
+<div id="changePasswordModal" class="modal-overlay">
+    <div class="modal-box">
+
+        <h2>Change Password</h2>
+
+        <form id="changePasswordForm">
+
+            <label>New Password</label>
+            <input type="password" name="new_password" id="newPassword" required>
+
+            
+            <div class="strength-wrapper">
+                <div class="strength-bar">
+                    <div id="strengthFill"></div>
+                </div>
+                <small id="strengthText">Password strength</small>
+            </div>
+
+            <label>Confirm New Password</label>
+            <input type="password" name="confirm_password" required>
+
+            <div class="modal-actions">
+                <button type="button" id="closeChangePassword">Cancel</button>
+                <button type="submit">Save</button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
 <!-- Custom Popup -->
 <link rel="stylesheet" href="assets/popup/popup.css">
 
@@ -205,11 +250,16 @@ fetch("assets/popup/popup.html")
     .then(res => res.text())
     .then(html => {
         document.getElementById("popup-container").innerHTML = html;
+
+        // Load popup.js AFTER the HTML exists
+        const script = document.createElement("script");
+        script.src = "assets/popup/popup.js";
+        document.body.appendChild(script);
     });
 </script>
 
-<script src="assets/popup/popup.js" defer></script>
 
+<script src="assets/js/resident-profilingss.js"></script>
 <script src="assets/js/admins-dashboard.js"></script>
 
 

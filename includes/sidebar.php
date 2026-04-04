@@ -1,9 +1,13 @@
 <?php
+require_once 'auth_check.php';
+
 // Get the current page filename
 $currentPage = basename($_SERVER['PHP_SELF']);
+
+// admin role
+$isAdmin = ($_SESSION['role'] === 'admin');
 ?>
 
-<!-- sidebar.php -->
 <div class="sidebar collapsed" id="sidebar">
 
     <!-- MANAGEMENT SECTION -->
@@ -58,6 +62,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
     </div>
 
     <!-- SETTINGS SECTION -->
+    <?php if ($isAdmin): ?> 
     <div class="sidebar-section">
         <p class="sidebar-section-title">Settings</p>
         <ul class="sidebar-menu">
@@ -73,6 +78,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
             </li>
         </ul>
     </div>
+    <?php endif; ?>
 
     <!-- LOGOUT AT THE BOTTOM -->
     <div class="sidebar-logout">

@@ -77,34 +77,54 @@ mysqli_close($conn);
     <title>Web-Based-Barangay-Resident-Profiling-and-Aid-Distribution-System</title>
     <link rel="stylesheet" href="assets/css/login.css">
 </head>
-<body class="auth-body">
+<body>
 
-<div class="auth-box">
-    <img src="assets/images/logos.png" alt="logo">
-    <h2>Barangay Abangan Norte</h2>
-    <p class="Household">Household Data Management System</p>
+<div class="container">
 
-    <form method="POST" action="">
-        <div class="input-group">
-            <label>Username</label>
-            <input type="text" name="username" placeholder="Enter your username" required>
-
-            <label>Password</label>
-            <input type="password" name="password" placeholder="Enter your password" required>
-        </div>
-
-        <button type="submit" name="login">Sign in</button>
-    </form>
-
-    <?php if (!empty($error)) { ?>
-        <p style="color:red; text-align:center; margin-top:10px;">
-            <?php echo $error; ?>
-        </p>
-    <?php } ?>
-
-    <p class="authorized-p">Authorized Personnel Only</p>
-    <!-- <a href="signup.php" class="Register">Register New Account</a> -->
+    <!-- LEFT SIDE (Branding only text now) -->
+<div class="left-panel">
+    <div class="left-content">
+        <h1 id="tagline"></h1>
+    </div>
 </div>
+
+    <!-- RIGHT SIDE (Login Form) -->
+    <div class="right-panel">
+        <div class="auth-box">
+
+            
+            <img src="assets/images/logos.png" alt="logo" class="card-logo">
+
+            <h2>Barangay Abangan Norte</h2>
+            <p class="subtitle">Please login to your account</p>
+
+            <form method="POST" action="">
+                <div class="input-group">
+                    <label>Username</label>
+                    <input type="text" name="username" placeholder="Enter your username" required>
+
+                    <label>Password</label>
+                    <input type="password" name="password" placeholder="Enter your password" required>
+                </div>
+
+                <button type="submit" name="login">Sign in</button>
+            </form>
+
+            <?php if (!empty($error)) { ?>
+                <p class="error">
+                    <?php echo $error; ?>
+                </p>
+            <?php } ?>
+
+            <p class="authorized-p">Authorized Personnel Only</p>
+
+        </div>
+    </div>
+
+</div>
+
+
+<script src="assets/js/login.js"></script>
 
 </body>
 </html>
